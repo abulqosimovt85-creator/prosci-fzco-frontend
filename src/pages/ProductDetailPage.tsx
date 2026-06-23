@@ -12,9 +12,11 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (!id) return
     fetchProductById(id).then(res => {
-      setProduct(res)
-      if (res.images && res.images.length > 0) {
-        setActiveImage(res.images[0])
+      if (res) {
+        setProduct(res)
+        if (res.images && res.images.length > 0) {
+          setActiveImage(res.images[0])
+        }
       }
     })
   }, [id])

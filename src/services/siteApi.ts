@@ -1,7 +1,7 @@
 import { brands, caseStudies, blogPosts, industries, products, services, solutions, categories } from '../data/content'
 import type { Brand, CaseStudy, BlogPost, Industry, Product, Service, Solution, Category, Inquiry } from '../types'
 
-const API_BASE = 'http://localhost:3000/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 
 // Helper for resilient fetch
 async function apiFetch<T>(path: string, fallbackData: T): Promise<T> {
@@ -201,5 +201,18 @@ export async function generateProductAI(name: string, category: string, context?
     body: JSON.stringify({ name, category, context }),
   })
   if (!res.ok) throw new Error('AI Generation failed')
+  return await res.json()
+}
+
+// IMAGE UPLOAD API
+export async function uploadProductImage(file: File): Promise<{ url: string; filename: string }> {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const res = await fetch(`${API_BASE}/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+  if (!res.ok) throw new Error('Failed to upload image')
   return await res.json()
 }

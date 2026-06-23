@@ -11,8 +11,10 @@ import {
   createCategory,
   deleteCategory,
   createBrand,
+  updateBrand,
   deleteBrand,
-  generateProductAI
+  generateProductAI,
+  uploadProductImage
 } from '../services/siteApi'
 import type { Product, Category, Brand, Inquiry } from '../types'
 
@@ -47,7 +49,7 @@ export default function AdminPage() {
 
   // Category Form State
   const [newCatName, setNewCatName] = useState('')
-  const [newCatParentId, setNewCatParentId] = useState('')
+  // const [newCatParentId, setNewCatParentId] = useState('')
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null)
   const [newSubCatName, setNewSubCatName] = useState('')
   // Brand Form State
@@ -144,18 +146,19 @@ export default function AdminPage() {
     setProdFormImages(updated)
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files || files.length === 0) return
 
-    Array.from(files).forEach(file => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64String = reader.result as string
-        setProdFormImages(prev => [...prev, base64String])
+    for (const file of Array.from(files)) {
+      try {
+        const result = await uploadProductImage(file)
+        setProdFormImages(prev => [...prev, result.url])
+      } catch (err) {
+        console.error('Failed to upload image:', err)
+        alert(`Failed to upload image: ${err instanceof Error ? err.message : String(err)}`)
       }
-      reader.readAsDataURL(file)
-    })
+    }
     // Reset input
     e.target.value = ''
   }
@@ -362,17 +365,17 @@ export default function AdminPage() {
     }
   }
 
-  const openEditBrand = (br: Brand) => {
-    setEditingBrand(br)
-    setNewBrandName(br.name)
-    setNewBrandLogo(br.logo)
-  }
+  // const openEditBrand = (br: Brand) => {
+  //   setEditingBrand(br)
+  //   setNewBrandName(br.name)
+  //   setNewBrandLogo(br.logo)
+  // }
 
-  const cancelBrandEdit = () => {
-    setEditingBrand(null)
-    setNewBrandName('')
-    setNewBrandLogo('')
-  }
+  // const cancelBrandEdit = () => {
+  //   setEditingBrand(null)
+  //   setNewBrandName('')
+  //   setNewBrandLogo('')
+  // }
 
   const handleBrandDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this brand?')) return
