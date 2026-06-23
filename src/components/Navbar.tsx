@@ -10,7 +10,6 @@ const navigation = [
   { path: '/industries', label: 'Industries' },
   { path: '/insights', label: 'Insights' },
   { path: '/contact', label: 'Contact' },
-  { path: '/admin', label: 'Admin Panel' },
 ]
 
 export default function Navbar() {
@@ -75,13 +74,6 @@ export default function Navbar() {
             className="rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white transition-all shadow-[0_10px_25px_-5px_rgba(21,63,120,0.4)] hover:bg-brand-800 hover:shadow-[0_15px_30px_-5px_rgba(21,63,120,0.5)] active:scale-95"
           >
             Get Quote
-          </NavLink>
-
-          <NavLink
-            to="/admin"
-            className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 active:scale-95 shadow-sm"
-          >
-            Admin Panel
           </NavLink>
         </div>
 
@@ -149,13 +141,6 @@ export default function Navbar() {
                   className="rounded-full bg-brand-700 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-800 shadow-[0_10px_20px_-5px_rgba(21,63,120,0.4)]"
                 >
                   Get Quote
-                </NavLink>
-                <NavLink
-                  to="/admin"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-full border border-slate-200 bg-slate-50 py-3 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-                >
-                  Admin Panel
                 </NavLink>
               </div>
             </div>

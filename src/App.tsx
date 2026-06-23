@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
@@ -11,6 +11,12 @@ import CaseStudiesPage from './pages/CaseStudiesPage'
 import InsightsPage from './pages/InsightsPage'
 import ContactPage from './pages/ContactPage'
 import AdminPage from './pages/AdminPage'
+import AdminLoginPage from './pages/AdminLoginPage'
+
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const isAuthenticated = localStorage.getItem('admin_auth') === 'true'
+  return isAuthenticated ? <>{children}</> : <Navigate to="/admin/login" replace />
+}
 
 function App() {
   return (
@@ -27,7 +33,15 @@ function App() {
           <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/insights" element={<InsightsPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
+            }
+          />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </Layout>
