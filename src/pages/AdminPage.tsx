@@ -35,6 +35,7 @@ export default function AdminPage() {
   // Product Form State
   const [prodFormName, setProdFormName] = useState('')
   const [prodFormCategory, setProdFormCategory] = useState('')
+  const [prodFormSubCategory, setProdFormSubCategory] = useState('')
   const [prodFormBrand, setProdFormBrand] = useState('')
   const [prodFormApplication, setProdFormApplication] = useState('')
   const [prodFormDescription, setProdFormDescription] = useState('')
@@ -103,6 +104,7 @@ export default function AdminPage() {
     setEditingProduct(null)
     setProdFormName('')
     setProdFormCategory(categoriesList[0]?.name || '')
+    setProdFormSubCategory('')
     setProdFormBrand(brandsList[0]?.name || '')
     setProdFormApplication('')
     setProdFormDescription('')
@@ -117,7 +119,9 @@ export default function AdminPage() {
   const openEditProductModal = (prod: Product) => {
     setEditingProduct(prod)
     setProdFormName(prod.name)
-    setProdFormCategory(prod.category)
+    const catParts = prod.category.split(' > ')
+    setProdFormCategory(catParts[0] || prod.category)
+    setProdFormSubCategory(catParts[1] || '')
     setProdFormBrand(prod.brand)
     setProdFormApplication(prod.application)
     setProdFormDescription(prod.description)
@@ -132,6 +136,7 @@ export default function AdminPage() {
   }
 
   // Dynamic image field manipulation
+  const [isDraggingImages, setIsDraggingImages] = useState(false)
   const handleAddImageField = () => {
     setProdFormImages([...prodFormImages, ''])
   }
@@ -161,6 +166,33 @@ export default function AdminPage() {
     }
     // Reset input
     e.target.value = ''
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDraggingImages(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDraggingImages(false)
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDraggingImages(false)
+    const files = e.dataTransfer.files
+    if (!files || files.length === 0) return
+
+    for (const file of Array.from(files)) {
+      if (!file.type.startsWith('image/')) continue
+      try {
+        const result = await uploadProductImage(file)
+        setProdFormImages(prev => [...prev, result.url])
+      } catch (err) {
+        console.error('Failed to upload image:', err)
+      }
+    }
   }
 
   // Dynamic spec field manipulation
@@ -229,9 +261,13 @@ export default function AdminPage() {
       }
     })
 
+    const finalCategory = prodFormSubCategory.trim()
+      ? `${prodFormCategory} > ${prodFormSubCategory.trim()}`
+      : prodFormCategory
+
     const payload = {
       name: prodFormName.trim(),
-      category: prodFormCategory || 'Lab Equipment',
+      category: finalCategory || 'Lab Equipment',
       brand: prodFormBrand || 'Generic',
       application: prodFormApplication.trim() || 'General laboratory use',
       description: prodFormDescription.trim(),
@@ -394,20 +430,6 @@ export default function AdminPage() {
   const inContactLeads = inquiries.filter(i => i.status === 'in-contact').length
   const archivedLeads = inquiries.filter(i => i.status === 'archived').length
 
-  // Pipeline Value Calculator
-  const estimatedPipeline = inquiries.reduce((sum, inq) => {
-    if (!inq.budget) return sum
-    // Extract numbers from strings like "$10,000 - $50,000" or "$100,000+"
-    const cleaned = inq.budget.replace(/[^0-9-]/g, '')
-    if (cleaned.includes('-')) {
-      const [low, high] = cleaned.split('-').map(Number)
-      return sum + (low + high) / 2
-    } else {
-      const val = Number(cleaned)
-      return sum + (isNaN(val) ? 0 : val)
-    }
-  }, 0)
-
   // Filtering lists
   const filteredInquiries = inquiries.filter(inq => {
     const status = inq.status || 'pending'
@@ -465,26 +487,7 @@ export default function AdminPage() {
         </div>
 
         {/* HUD Statistics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm relative overflow-hidden group">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Estimated Pipeline</p>
-                <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                  ${estimatedPipeline.toLocaleString()}
-                </h3>
-              </div>
-              <span className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </span>
-            </div>
-            <div className="text-[10px] text-slate-400 mt-3 flex items-center">
-              Calculated from incoming client budget ranges.
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm relative overflow-hidden group">
             <div className="flex justify-between items-start">
               <div>
@@ -675,9 +678,6 @@ export default function AdminPage() {
                             <span className="text-xs text-slate-300">•</span>
                             <span className="text-xs font-semibold px-2 py-0.5 rounded-full border bg-indigo-50 text-indigo-600 border-indigo-100">
                               {inq.industry}
-                            </span>
-                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-600 border-emerald-100">
-                              {inq.budget}
                             </span>
                           </div>
                           <p className="text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 italic font-light">
@@ -977,10 +977,23 @@ export default function AdminPage() {
                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Category</label>
                     <select
                       value={prodFormCategory}
-                      onChange={(e) => setProdFormCategory(e.target.value)}
+                      onChange={(e) => { setProdFormCategory(e.target.value); setProdFormSubCategory(''); }}
                       className="mt-1 block w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-900 text-xs focus:outline-none"
                     >
-                      {categoriesList.map(cat => <option key={cat.id} value={cat.name}>{cat.name}</option>)}
+                      {categoriesList.filter(c => !c.parentId).map(cat => <option key={cat.id} value={cat.name}>{cat.name}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Subcategory <span className="text-slate-400 normal-case">(optional)</span></label>
+                    <select
+                      value={prodFormSubCategory}
+                      onChange={(e) => setProdFormSubCategory(e.target.value)}
+                      className="mt-1 block w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-900 text-xs focus:outline-none"
+                    >
+                      <option value="">None</option>
+                      {categoriesList.filter(c => c.parentId && categoriesList.find(p => p.id === c.parentId)?.name === prodFormCategory).map(cat => (
+                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -1079,7 +1092,7 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Product Photos</label>
-                      <p className="text-[10px] text-slate-400">Upload local files or provide external URLs.</p>
+                      <p className="text-[10px] text-slate-400">Drag and drop images or upload manually.</p>
                     </div>
                     <div className="flex gap-2">
                       <label className="cursor-pointer px-3 py-1 bg-white border border-slate-200 rounded-lg text-brand-700 font-bold text-[10px] hover:bg-slate-50 shadow-sm transition-all">
@@ -1095,6 +1108,28 @@ export default function AdminPage() {
                       <button type="button" onClick={handleAddImageField} className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-brand-700 font-bold text-[10px] hover:bg-slate-50 shadow-sm transition-all">
                         + Add URL Row
                       </button>
+                    </div>
+                  </div>
+
+                  {/* Drag and Drop Zone */}
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`relative rounded-xl border-2 border-dashed transition-all duration-200 p-6 text-center ${
+                      isDraggingImages
+                        ? 'border-brand-500 bg-brand-50/50'
+                        : 'border-slate-200 bg-slate-50/50 hover:border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <svg className={`w-8 h-8 transition-colors ${isDraggingImages ? 'text-brand-500' : 'text-slate-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                      </svg>
+                      <p className={`text-xs font-medium transition-colors ${isDraggingImages ? 'text-brand-600' : 'text-slate-500'}`}>
+                        {isDraggingImages ? 'Drop images here' : 'Drag & drop images here'}
+                      </p>
+                      <p className="text-[10px] text-slate-400">PNG, JPG, WebP up to 5MB each</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 gap-2">

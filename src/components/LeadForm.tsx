@@ -3,15 +3,14 @@ import { useState } from 'react'
 const steps = [
   { label: 'Industry', field: 'industry' },
   { label: 'Requirement', field: 'requirement' },
-  { label: 'Budget', field: 'budget' },
 ]
 
 export default function LeadForm() {
   const [activeStep, setActiveStep] = useState(0)
-  const [form, setForm] = useState({ industry: '', requirement: '', budget: '' })
+  const [form, setForm] = useState({ industry: '', requirement: '' })
   const [submitted, setSubmitted] = useState(false)
 
-  const handleChange = (key: 'industry' | 'requirement' | 'budget', value: string) => {
+  const handleChange = (key: 'industry' | 'requirement', value: string) => {
     setForm(prev => ({ ...prev, [key]: value }))
   }
 
@@ -45,9 +44,9 @@ export default function LeadForm() {
               <input
                 type="text"
                 value={form[steps[activeStep].field as keyof typeof form]}
-                onChange={e => handleChange(steps[activeStep].field as 'industry' | 'requirement' | 'budget', e.target.value)}
+                onChange={e => handleChange(steps[activeStep].field as 'industry' | 'requirement', e.target.value)}
                 className="mt-3 w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-700 focus:ring-2 focus:ring-brand-100"
-                placeholder={steps[activeStep].label === 'Budget' ? 'AED 100k - 300k' : 'Describe your need'}
+                placeholder="Describe your need"
               />
             </div>
             <button

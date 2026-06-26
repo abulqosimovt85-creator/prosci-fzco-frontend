@@ -4,11 +4,10 @@ import SectionHeading from '../components/SectionHeading'
 import { submitInquiry } from '../services/siteApi'
 
 const industryOptions = ['Oil & Gas', 'Pharma', 'Food & Beverage', 'Environmental', 'Academic']
-const budgetOptions = ['AED 50k - 150k', 'AED 150k - 350k', 'AED 350k+']
 
 export default function ContactPage() {
   const [step, setStep] = useState(0)
-  const [form, setForm] = useState({ industry: '', requirement: '', budget: '', name: '', email: '', phone: '' })
+  const [form, setForm] = useState({ industry: '', requirement: '', name: '', email: '', phone: '' })
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -22,33 +21,33 @@ export default function ContactPage() {
     setError('')
     if (step === 0) {
       if (!form.industry) {
-        setError('Please select an industry to continue.')
+        setError('Please select your industry so we can better assist you.')
         return false
       }
     } else if (step === 1) {
       if (!form.requirement.trim()) {
-        setError('Please describe your requirements.')
+        setError('A brief description of your requirements helps us prepare the right solution for you.')
         return false
       }
       if (form.requirement.trim().length < 10) {
-        setError('Please provide a bit more detail (at least 10 characters).')
+        setError('Could you add a bit more detail? A few extra words help us understand your needs better.')
         return false
       }
     } else if (step === 2) {
-      if (!form.budget) {
-        setError('Please select a budget range.')
-        return false
-      }
       if (!form.name.trim()) {
-        setError('Please enter a contact name.')
+        setError('Please share your name so our team knows who to connect with.')
         return false
       }
-      if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) {
-        setError('Please enter a valid email address.')
+      if (!form.email.trim()) {
+        setError('We need your email to send you the proposal.')
+        return false
+      }
+      if (!/\S+@\S+\.\S+/.test(form.email)) {
+        setError('That email address doesn\'t look quite right — please double-check it.')
         return false
       }
       if (!form.phone.trim()) {
-        setError('Please enter a phone number.')
+        setError('A phone number helps us reach you quickly for any follow-up.')
         return false
       }
     }
@@ -62,6 +61,7 @@ export default function ContactPage() {
       setStep(step + 1)
     } else {
       setLoading(true)
+      setError('')
       try {
         await submitInquiry({
           name: form.name,
@@ -70,13 +70,11 @@ export default function ContactPage() {
           phone: form.phone,
           message: form.requirement,
           industry: form.industry,
-          budget: form.budget,
         })
         setSubmitted(true)
       } catch (err) {
-        console.warn('API submission failed. Simulating successful local fallback submission.', err)
-        // Set submitted true anyway for client resiliency
-        setSubmitted(true)
+        console.error('Inquiry submission failed:', err)
+        setError('Something went wrong while submitting your inquiry. Please try again or contact us directly at info@psci-sol.com')
       } finally {
         setLoading(false)
       }
@@ -118,36 +116,17 @@ export default function ContactPage() {
       ),
     },
     {
-      title: 'Budget & Contact Info',
+      title: 'Contact Info',
       content: (
         <div className="space-y-5">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-slate-700">Estimated budget</label>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {budgetOptions.map(option => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => handleChange('budget', option)}
-                  className={`rounded-full border px-4 py-3 text-sm font-semibold transition ${
-                    form.budget === option
-                      ? 'border-brand-700 bg-brand-700 text-white shadow-md shadow-brand-700/20'
-                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-4 mt-4">
+          <div className="grid gap-4">
             <div className="space-y-1">
               <label className="block text-xs font-semibold text-slate-500 uppercase">Contact name</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={e => handleChange('name', e.target.value)}
-                placeholder="Dr. Alexander Smith"
+                placeholder="e.g. Dr. Sarah Ahmed"
                 className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-700 focus:ring-2 focus:ring-brand-100"
               />
             </div>
@@ -193,7 +172,7 @@ export default function ContactPage() {
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700">Location</p>
             <h3 className="mt-4 text-2xl font-semibold text-slate-950">Dubai, UAE</h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
-              ProScientific Solutions - FZCO is headquartered in Dubai Silicon Oasis, UAE, with regional supply chains and support across Uzbekistan and Central Asian scientific sectors.
+              ProScientific Solutions - FZCO is headquartered in Dubai Silicon Oasis, UAE, delivering premium laboratory equipment, automation, and scientific services to enterprises across the region.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl bg-slate-50 p-5 border border-slate-100">
@@ -221,7 +200,7 @@ export default function ContactPage() {
                 <h3 className="text-3xl font-semibold text-slate-950">Thank you, {form.name}!</h3>
                 <p className="text-sm font-medium text-teal-600 uppercase tracking-widest">Inquiry Successfully Catalogued</p>
                 <p className="text-sm leading-7 text-slate-600 max-w-md mx-auto">
-                  Your inquiry has been successfully registered. We have recorded your interest in our solutions for the <span className="font-semibold text-slate-900">{form.industry}</span> sector, with an estimated budget of <span className="font-semibold text-slate-900">{form.budget}</span>.
+                  Your inquiry has been successfully registered. We have recorded your interest in our solutions for the <span className="font-semibold text-slate-900">{form.industry}</span> sector.
                 </p>
               </div>
               <div className="rounded-3xl bg-slate-50 p-6 text-left border border-slate-100 text-sm space-y-2">
@@ -233,7 +212,7 @@ export default function ContactPage() {
               <div className="pt-4 flex flex-col gap-3">
                 <button
                   onClick={() => {
-                    setForm({ industry: '', requirement: '', budget: '', name: '', email: '', phone: '' })
+                    setForm({ industry: '', requirement: '', name: '', email: '', phone: '' })
                     setStep(0)
                     setSubmitted(false)
                   }}
@@ -253,7 +232,7 @@ export default function ContactPage() {
                   <p className="text-xs uppercase font-bold tracking-[0.35em] text-slate-400">Interactive Setup</p>
                   <h4 className="mt-1 text-2xl font-semibold text-slate-950">Request a Proposal</h4>
                 </div>
-                <span className="rounded-full bg-brand-700 px-4.5 py-2 text-xs font-bold text-white shadow-sm">
+                <span className="rounded-full bg-brand-700 px-4 py-2 text-xs font-bold text-white shadow-sm whitespace-nowrap">
                   Step {step + 1} / {steps.length}
                 </span>
               </div>
@@ -265,11 +244,9 @@ export default function ContactPage() {
               </div>
 
               {error && (
-                <div className="rounded-2xl bg-rose-50 border border-rose-100 p-4 text-xs font-semibold text-rose-600 flex items-center gap-2.5">
-                  <svg className="h-4.5 w-4.5 stroke-current fill-none stroke-2 shrink-0" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                <div className="rounded-xl bg-amber-50 border border-amber-200/60 px-4 py-3 text-[13px] text-amber-800 flex items-start gap-3">
+                  <svg className="h-4 w-4 mt-0.5 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span>{error}</span>
                 </div>

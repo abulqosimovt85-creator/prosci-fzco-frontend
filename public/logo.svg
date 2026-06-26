@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" fill="none">
+  <!-- Circle with PS -->
+  <circle cx="60" cy="60" r="55" stroke="#081c44" stroke-width="2.5" fill="none"/>
+  <text x="28" y="76" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="bold" fill="#081c44">P</text>
+  <text x="52" y="76" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="bold" fill="#153f78">S</text>
+  <circle cx="82" cy="30" r="5" fill="#153f78"/>
+
+  <!-- Vertical separator -->
+  <line x1="130" y1="18" x2="130" y2="102" stroke="#081c44" stroke-width="1.5"/>
+
+  <!-- ProScient text -->
+  <text x="148" y="58" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="bold">
+    <tspan fill="#081c44">Pro</tspan><tspan fill="#153f78">Scient</tspan>
+  </text>
+
+  <!-- Horizontal line under ProScient -->
+  <line x1="148" y1="66" x2="380" y2="66" stroke="#153f78" stroke-width="1.5"/>
+
+  <!-- Tagline -->
+  <text x="148" y="80" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#081c44">Smart Science. Real Impact.</text>
+
+  <!-- Company name -->
+  <text x="148" y="95" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="bold" letter-spacing="1.5" fill="#081c44">PROSCIENTIFIC SOLUTIONS - FZCO</text>
+
+  <!-- Arabic text - using transform to position from right edge -->
+  <text x="380" y="112" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#081c44" text-anchor="end" xml:lang="ar">بروساتيتفيك للحلول - ش.م.خ</text>
+</svg>

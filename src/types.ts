@@ -32,7 +32,7 @@ export interface Inquiry {
   message: string
   productId?: string
   industry: string
-  budget: string
+  budget?: string
   status?: 'pending' | 'in-contact' | 'archived'
 }
 

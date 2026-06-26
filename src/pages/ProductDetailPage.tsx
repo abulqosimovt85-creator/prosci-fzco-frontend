@@ -4,10 +4,13 @@ import { fetchProductById } from '../services/siteApi'
 import type { Product } from '../types'
 import SectionHeading from '../components/SectionHeading'
 
+import { AnimatePresence, motion } from 'framer-motion'
+
 export default function ProductDetailPage() {
   const { id } = useParams()
   const [product, setProduct] = useState<Product | undefined>(undefined)
   const [activeImage, setActiveImage] = useState<string | null>(null)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -46,7 +49,10 @@ export default function ProductDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Left: Gallery */}
             <div className="space-y-4">
-              <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-slate-200 bg-white shadow-sm flex items-center justify-center">
+              <div 
+                className="aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-slate-200 bg-white shadow-sm flex items-center justify-center cursor-pointer hover:shadow-md transition"
+                onClick={() => activeImage && setLightboxOpen(true)}
+              >
                 {activeImage ? (
                   <img src={activeImage} alt={product.name} className="h-full w-full object-contain p-6" />
                 ) : (
@@ -198,6 +204,38 @@ export default function ProductDetailPage() {
           </aside>
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxOpen && activeImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-6 right-6 text-white/80 hover:text-white transition z-10"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              src={activeImage}
+              alt={product.name}
+              className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

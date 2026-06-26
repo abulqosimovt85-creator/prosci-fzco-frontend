@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
@@ -14,7 +15,44 @@ import AdminPage from './pages/AdminPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
-  const isAuthenticated = localStorage.getItem('admin_auth') === 'true'
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token')
+    if (!token) {
+      setIsAuthenticated(false)
+      return
+    }
+    // Verify token with backend
+    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'}/auth/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          setIsAuthenticated(true)
+        } else {
+          localStorage.removeItem('admin_token')
+          setIsAuthenticated(false)
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem('admin_token')
+        setIsAuthenticated(false)
+      })
+  }, [])
+
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="text-sm text-slate-500">Verifying access...</div>
+      </div>
+    )
+  }
+
   return isAuthenticated ? <>{children}</> : <Navigate to="/admin/login" replace />
 }
 

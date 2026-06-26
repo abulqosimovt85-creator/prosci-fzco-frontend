@@ -3,6 +3,15 @@ import type { Brand, CaseStudy, BlogPost, Industry, Product, Service, Solution, 
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 
+function getAuthToken(): string | null {
+  return localStorage.getItem('admin_token')
+}
+
+function authHeaders(): Record<string, string> {
+  const token = getAuthToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 // Helper for resilient fetch
 async function apiFetch<T>(path: string, fallbackData: T): Promise<T> {
   try {
@@ -15,13 +24,45 @@ async function apiFetch<T>(path: string, fallbackData: T): Promise<T> {
   }
 }
 
+// AUTH API
+export async function adminLogin(username: string, password: string): Promise<{ access_token: string }> {
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  })
+  if (!res.ok) throw new Error('Invalid credentials')
+  return await res.json()
+}
+
+export async function verifyToken(): Promise<boolean> {
+  const token = getAuthToken()
+  if (!token) return false
+  try {
+    const res = await fetch(`${API_BASE}/auth/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
+export function logout(): void {
+  localStorage.removeItem('admin_token')
+}
+
 // PUBLIC PRODUCTS API
 export async function fetchProducts(search = '', category = ''): Promise<Product[]> {
   try {
     const query = new URLSearchParams()
     if (search) query.append('search', search)
     if (category) query.append('category', category)
-    
+
     const res = await fetch(`${API_BASE}/products?${query.toString()}`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     return await res.json()
@@ -94,7 +135,9 @@ export async function submitInquiry(inquiry: Omit<Inquiry, 'id'>): Promise<Inqui
 
 // ADMIN SECTION OPERATIONS
 export async function fetchAllInquiries(): Promise<Inquiry[]> {
-  const res = await fetch(`${API_BASE}/inquiries`)
+  const res = await fetch(`${API_BASE}/inquiries`, {
+    headers: authHeaders(),
+  })
   if (!res.ok) throw new Error('Failed to fetch inquiries')
   return await res.json()
 }
@@ -102,7 +145,7 @@ export async function fetchAllInquiries(): Promise<Inquiry[]> {
 export async function updateInquiryStatus(id: string, status: 'pending' | 'in-contact' | 'archived'): Promise<Inquiry> {
   const res = await fetch(`${API_BASE}/inquiries/${id}/status`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ status }),
   })
   if (!res.ok) throw new Error('Failed to update inquiry status')
@@ -113,7 +156,7 @@ export async function updateInquiryStatus(id: string, status: 'pending' | 'in-co
 export async function createProduct(product: Omit<Product, 'id'>): Promise<Product> {
   const res = await fetch(`${API_BASE}/products`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(product),
   })
   if (!res.ok) throw new Error('Failed to create product')
@@ -123,7 +166,7 @@ export async function createProduct(product: Omit<Product, 'id'>): Promise<Produ
 export async function updateProduct(id: string, product: Partial<Product>): Promise<Product> {
   const res = await fetch(`${API_BASE}/products/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(product),
   })
   if (!res.ok) throw new Error('Failed to update product')
@@ -133,6 +176,7 @@ export async function updateProduct(id: string, product: Partial<Product>): Prom
 export async function deleteProduct(id: string): Promise<void> {
   const res = await fetch(`${API_BASE}/products/${id}`, {
     method: 'DELETE',
+    headers: authHeaders(),
   })
   if (!res.ok) throw new Error('Failed to delete product')
 }
@@ -141,7 +185,7 @@ export async function deleteProduct(id: string): Promise<void> {
 export async function createCategory(category: { name: string; parentId?: string | null }): Promise<Category> {
   const res = await fetch(`${API_BASE}/categories`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(category),
   })
   if (!res.ok) throw new Error('Failed to create category')
@@ -151,7 +195,7 @@ export async function createCategory(category: { name: string; parentId?: string
 export async function updateCategory(id: string, name: string): Promise<Category> {
   const res = await fetch(`${API_BASE}/categories/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ name }),
   })
   if (!res.ok) throw new Error('Failed to update category')
@@ -161,6 +205,7 @@ export async function updateCategory(id: string, name: string): Promise<Category
 export async function deleteCategory(id: string): Promise<void> {
   const res = await fetch(`${API_BASE}/categories/${id}`, {
     method: 'DELETE',
+    headers: authHeaders(),
   })
   if (!res.ok) throw new Error('Failed to delete category')
 }
@@ -169,7 +214,7 @@ export async function deleteCategory(id: string): Promise<void> {
 export async function createBrand(brand: Omit<Brand, 'id'>): Promise<Brand> {
   const res = await fetch(`${API_BASE}/brands`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(brand),
   })
   if (!res.ok) throw new Error('Failed to create brand')
@@ -179,7 +224,7 @@ export async function createBrand(brand: Omit<Brand, 'id'>): Promise<Brand> {
 export async function updateBrand(id: string, brand: Partial<Brand>): Promise<Brand> {
   const res = await fetch(`${API_BASE}/brands/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(brand),
   })
   if (!res.ok) throw new Error('Failed to update brand')
@@ -189,6 +234,7 @@ export async function updateBrand(id: string, brand: Partial<Brand>): Promise<Br
 export async function deleteBrand(id: string): Promise<void> {
   const res = await fetch(`${API_BASE}/brands/${id}`, {
     method: 'DELETE',
+    headers: authHeaders(),
   })
   if (!res.ok) throw new Error('Failed to delete brand')
 }
@@ -197,7 +243,7 @@ export async function deleteBrand(id: string): Promise<void> {
 export async function generateProductAI(name: string, category: string, context?: string): Promise<Partial<Product>> {
   const res = await fetch(`${API_BASE}/ai/generate-product`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ name, category, context }),
   })
   if (!res.ok) throw new Error('AI Generation failed')
@@ -211,6 +257,7 @@ export async function uploadProductImage(file: File): Promise<{ url: string; fil
 
   const res = await fetch(`${API_BASE}/upload`, {
     method: 'POST',
+    headers: authHeaders(),
     body: formData,
   })
   if (!res.ok) throw new Error('Failed to upload image')

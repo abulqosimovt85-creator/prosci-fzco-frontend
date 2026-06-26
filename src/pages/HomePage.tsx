@@ -94,11 +94,16 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {['1.2M hours delivered', '88% customer retention', '500K samples processed'].map(metric => (
-              <div key={metric} className="rounded-3xl bg-slate-900/80 p-6 text-center text-sm text-slate-200">
-                <p className="text-2xl font-semibold text-white">{metric.split(' ')[0]}</p>
-                <p className="mt-2 text-slate-400">{metric.replace(metric.split(' ')[0], '').trim()}</p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: '1,200+', label: 'Products available from partner manufacturers.' },
+              { value: '50+', label: 'International brands supplied.' },
+              { value: '96%', label: 'Orders delivered within the promised timeframe.' },
+              { value: '8+', label: 'Number of trained engineers.' },
+            ].map(metric => (
+              <div key={metric.value} className="rounded-3xl bg-slate-900/80 p-6 text-center text-sm text-slate-200">
+                <p className="text-2xl font-semibold text-white">{metric.value}</p>
+                <p className="mt-2 text-slate-400">{metric.label}</p>
               </div>
             ))}
           </div>

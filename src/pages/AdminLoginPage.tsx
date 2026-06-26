@@ -1,28 +1,34 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { adminLogin } from '../services/siteApi'
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
-    // If already logged in, redirect to admin panel
-    if (localStorage.getItem('admin_auth') === 'true') {
+    const token = localStorage.getItem('admin_token')
+    if (token) {
       navigate('/admin')
     }
   }, [navigate])
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setLoading(true)
 
-    if (username === 'pscicolfzco' && password === 'labtec12345') {
-      localStorage.setItem('admin_auth', 'true')
+    try {
+      const result = await adminLogin(username, password)
+      localStorage.setItem('admin_token', result.access_token)
       navigate('/admin')
-    } else {
+    } catch {
       setError('Invalid username or password. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -40,7 +46,7 @@ export default function AdminLoginPage() {
             Sign in to manage registries and inquiries
           </p>
         </div>
-        
+
         {error && (
           <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl text-sm font-medium animate-pulse">
             {error}
@@ -84,9 +90,10 @@ export default function AdminLoginPage() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-full text-white bg-brand-700 hover:bg-brand-800 transition duration-150 ease-in-out shadow-[0_10px_25px_-5px_rgba(21,63,120,0.4)] active:scale-95 focus:outline-none"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-full text-white bg-brand-700 hover:bg-brand-800 transition duration-150 ease-in-out shadow-[0_10px_25px_-5px_rgba(21,63,120,0.4)] active:scale-95 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign In
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </div>
         </form>

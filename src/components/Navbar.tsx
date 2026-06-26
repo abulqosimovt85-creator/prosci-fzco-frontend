@@ -29,14 +29,12 @@ export default function Navbar() {
     }`}>
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-4 md:px-8">
         {/* Logo Section */}
-        <NavLink to="/" className="flex items-center gap-3 group focus:outline-none">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-900 text-white font-bold tracking-wider shadow-lg shadow-slate-900/10 transition group-hover:scale-105">
-            PS
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.32em] text-slate-500 group-hover:text-brand-700 transition">ProScient</p>
-            <p className="text-sm font-semibold text-slate-900">Smart Science. Real Impact.</p>
-          </div>
+        <NavLink to="/" className="flex items-center group focus:outline-none shrink-0">
+          <img
+            src="/logo.svg"
+            alt="ProScient - Smart Science. Real Impact."
+            className="h-12 w-auto transition group-hover:opacity-90"
+          />
         </NavLink>
 
         {/* Desktop Navigation */}
