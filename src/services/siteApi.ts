@@ -251,9 +251,46 @@ export async function generateProductAI(name: string, category: string, context?
 }
 
 // IMAGE UPLOAD API
+function compressImage(file: File, maxWidth = 1200, quality = 0.8): Promise<File> {
+  return new Promise((resolve) => {
+    if (!file.type.startsWith('image/') || file.size < 500_000) {
+      resolve(file)
+      return
+    }
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      let w = img.width
+      let h = img.height
+      if (w > maxWidth) {
+        h = Math.round((h * maxWidth) / w)
+        w = maxWidth
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+      canvas.toBlob(
+        (blob) => {
+          if (blob && blob.size < file.size) {
+            resolve(new File([blob], file.name, { type: 'image/jpeg' }))
+          } else {
+            resolve(file)
+          }
+        },
+        'image/jpeg',
+        quality,
+      )
+    }
+    img.src = url
+  })
+}
+
 export async function uploadProductImage(file: File): Promise<{ url: string; filename: string }> {
+  const compressed = await compressImage(file)
   const formData = new FormData()
-  formData.append('file', file)
+  formData.append('file', compressed)
 
   const res = await fetch(`${API_BASE}/upload`, {
     method: 'POST',
