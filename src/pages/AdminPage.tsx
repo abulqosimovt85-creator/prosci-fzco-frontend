@@ -103,7 +103,8 @@ export default function AdminPage() {
   const openAddProductModal = () => {
     setEditingProduct(null)
     setProdFormName('')
-    setProdFormCategory(categoriesList[0]?.name || '')
+    const firstParent = categoriesList.find(c => !c.parentId)
+    setProdFormCategory(firstParent?.name || '')
     setProdFormSubCategory('')
     setProdFormBrand(brandsList[0]?.name || '')
     setProdFormApplication('')
