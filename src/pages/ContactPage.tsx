@@ -73,7 +73,6 @@ export default function ContactPage() {
         })
         setSubmitted(true)
       } catch (err) {
-        console.error('Inquiry submission failed:', err)
         setError('Something went wrong while submitting your inquiry. Please try again or contact us directly at info@psci-sol.com')
       } finally {
         setLoading(false)

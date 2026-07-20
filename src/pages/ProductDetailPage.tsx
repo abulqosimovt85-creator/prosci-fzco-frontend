@@ -184,14 +184,19 @@ export default function ProductDetailPage() {
                 </svg>
                 Technical Specifications
               </h3>
-              <div className="space-y-4">
+              <div className="max-h-[28rem] overflow-y-auto pr-2 specs-scroll">
                 {Object.entries(product.specs).map(([key, value]) => (
-                  <div key={key} className="pb-4 border-b border-slate-50 last:border-0">
+                  <div key={key} className="pb-4 border-b border-slate-100 last:border-0">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{key}</p>
                     <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
                   </div>
                 ))}
               </div>
+              {Object.keys(product.specs).length > 6 && (
+                <div className="mt-4 pt-3 border-t border-slate-100 text-center">
+                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Scroll for more specs</p>
+                </div>
+              )}
             </div>
             
             <div className="rounded-3xl bg-brand-900 p-8 text-white">
