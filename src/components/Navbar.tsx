@@ -33,7 +33,7 @@ export default function Navbar() {
           <img
             src="/logo.svg"
             alt="ProScient - Smart Science. Real Impact."
-            className="h-12 w-auto transition group-hover:opacity-90"
+            className="h-16 w-auto transition group-hover:opacity-90"
           />
         </NavLink>
 

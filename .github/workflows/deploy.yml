@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to Beget via FTP (full sync)
+      - name: Deploy to Beget via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: doom1.beget.com
@@ -30,6 +30,3 @@ jobs:
           password: ${{ secrets.BEGET_FTP_PASS }}
           local-dir: dist/
           server-dir: /public_html/
-          dangerous-clean-slate: true
-          exclude: |
-            **/uploads/**
