@@ -184,7 +184,7 @@ export default function ProductDetailPage() {
                 </svg>
                 Technical Specifications
               </h3>
-              <div className="max-h-[28rem] overflow-y-auto pr-2 specs-scroll">
+              <div className="specs-scroll" style={{ maxHeight: '28rem', overflowY: 'auto', paddingRight: '0.5rem' }}>
                 {Object.entries(product.specs).map(([key, value]) => (
                   <div key={key} className="pb-4 border-b border-slate-100 last:border-0">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{key}</p>
