@@ -25,7 +25,7 @@ jobs:
       - name: Deploy to Beget via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp.psci-sol.com
+          server: doom1.beget.com
           username: ${{ secrets.BEGET_FTP_USER }}
           password: ${{ secrets.BEGET_FTP_PASS }}
           local-dir: dist/
