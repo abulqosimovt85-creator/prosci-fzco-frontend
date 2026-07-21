@@ -110,16 +110,18 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <div key={product.id} className="bg-white border border-outline-variant rounded p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-                    <div className="relative w-full aspect-square bg-surface-container-low mb-4 overflow-hidden flex items-center justify-center">
+                    <Link to={`/products/${product.id}`} className="relative w-full aspect-square bg-surface-container-low mb-4 overflow-hidden flex items-center justify-center">
                       {product.images?.[0] ? (
                         <img className="w-full h-full object-contain p-6 mix-blend-multiply" alt={product.name} src={product.images[0]} />
                       ) : (
                         <span className="material-symbols-outlined text-[64px] text-outline">science</span>
                       )}
-                    </div>
+                    </Link>
                     <div className="flex-grow">
                       <span className="block font-['Geist'] text-[12px] font-bold text-secondary mb-1">{product.brand?.toUpperCase()}</span>
-                      <h3 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary mb-2">{product.name}</h3>
+                      <Link to={`/products/${product.id}`}>
+                        <h3 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary mb-2 hover:text-secondary transition-colors cursor-pointer">{product.name}</h3>
+                      </Link>
                       <p className="text-on-surface-variant text-[14px] leading-relaxed line-clamp-2 mb-4">{product.description}</p>
                       {product.specs && Object.keys(product.specs).length > 0 && (
                         <div className="space-y-1 mb-6">
