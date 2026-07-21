@@ -8,13 +8,14 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<Brand[]>([])
   const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('')
+  const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set())
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const catParam = activeCategories.size > 0 ? Array.from(activeCategories).join(',') : ''
     Promise.all([
-      fetchProducts(search, activeCategory),
+      fetchProducts(search, catParam),
       fetchCategories(),
       fetchBrands(),
     ]).then(([prods, cats, brs]) => {
@@ -22,7 +23,16 @@ export default function ProductsPage() {
       setCategories(cats)
       setBrands(brs)
     }).finally(() => setLoading(false))
-  }, [search, activeCategory])
+  }, [search, activeCategories])
+
+  const toggleCategory = (catId: string) => {
+    setActiveCategories(prev => {
+      const next = new Set(prev)
+      if (next.has(catId)) next.delete(catId)
+      else next.add(catId)
+      return next
+    })
+  }
 
   const parentCategories = categories.filter(c => !c.parentId)
   const resultCount = products.length
@@ -35,7 +45,7 @@ export default function ProductsPage() {
           <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary">Filters</h2>
-              <button onClick={() => { setSearch(''); setActiveCategory('') }} className="text-secondary font-['Geist'] text-[14px] font-medium hover:underline">Clear all</button>
+              <button onClick={() => { setSearch(''); setActiveCategories(new Set()) }} className="text-secondary font-['Geist'] text-[14px] font-medium hover:underline">Clear all</button>
             </div>
 
             {/* Search */}
@@ -70,15 +80,15 @@ export default function ProductsPage() {
                             return next
                           })
                         }
-                        setActiveCategory(activeCategory === cat.id ? '' : cat.id)
                       }}>
                         <input
                           type="checkbox"
-                          checked={activeCategory === cat.id}
-                          readOnly
-                          className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary pointer-events-none"
+                          checked={activeCategories.has(cat.id)}
+                          onChange={() => toggleCategory(cat.id)}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary"
                         />
-                        <span className={`font-['Geist'] text-[14px] group-hover:text-primary flex-1 ${activeCategory === cat.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{cat.name}</span>
+                        <span className={`font-['Geist'] text-[14px] group-hover:text-primary flex-1 ${activeCategories.has(cat.id) ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{cat.name}</span>
                         {subcats.length > 0 && (
                           <span className={`material-symbols-outlined text-[16px] text-outline transition-transform ${isExpanded ? 'rotate-180' : ''}`}>expand_more</span>
                         )}
@@ -86,14 +96,14 @@ export default function ProductsPage() {
                       {isExpanded && subcats.length > 0 && (
                         <div className="ml-7 space-y-1 pb-1">
                           {subcats.map((sub) => (
-                            <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5" onClick={(e) => e.stopPropagation()}>
+                            <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5">
                               <input
                                 type="checkbox"
-                                checked={activeCategory === sub.id}
-                                onChange={() => setActiveCategory(activeCategory === sub.id ? '' : sub.id)}
+                                checked={activeCategories.has(sub.id)}
+                                onChange={() => toggleCategory(sub.id)}
                                 className="w-3.5 h-3.5 rounded border-outline-variant text-secondary focus:ring-secondary"
                               />
-                              <span className={`font-['Geist'] text-[13px] group-hover:text-primary ${activeCategory === sub.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{sub.name}</span>
+                              <span className={`font-['Geist'] text-[13px] group-hover:text-primary ${activeCategories.has(sub.id) ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{sub.name}</span>
                             </label>
                           ))}
                         </div>
@@ -123,7 +133,9 @@ export default function ProductsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
               <p className="text-[16px] text-on-surface-variant">
                 <span className="font-bold text-primary">{resultCount}</span> results
-                {activeCategory && <> for <span className="italic text-secondary">{categories.find(c => c.id === activeCategory)?.name}</span></>}
+                {activeCategories.size > 0 && (
+                  <> for <span className="italic text-secondary">{Array.from(activeCategories).map(id => categories.find(c => c.id === id)?.name).filter(Boolean).join(', ')}</span></>
+                )}
               </p>
               <div className="flex items-center gap-4">
                 <span className="font-['Geist'] text-[14px] font-medium text-outline">Sort by:</span>
