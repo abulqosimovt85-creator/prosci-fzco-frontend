@@ -39,12 +39,6 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link
-            to="/admin/login"
-            className="hidden md:block font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-medium text-on-surface-variant hover:text-primary transition-colors"
-          >
-            Log In
-          </Link>
-          <Link
             to="/contact"
             className="bg-primary text-white px-6 py-2 font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-semibold rounded-lg hover:bg-primary-container transition-all"
           >
