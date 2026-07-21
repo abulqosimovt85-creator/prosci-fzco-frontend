@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   return (
     <footer className="w-full pt-12 pb-6 bg-tertiary text-white">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-5 md:px-16 max-w-[1280px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 px-5 md:px-16 max-w-[1280px] mx-auto">
         <div className="space-y-4">
           <div className="flex items-center mb-2">
             <img
