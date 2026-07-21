@@ -9,6 +9,7 @@ export default function ProductsPage() {
   const [brands, setBrands] = useState<Brand[]>([])
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('')
+  const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -54,18 +55,52 @@ export default function ProductsPage() {
             {/* Category */}
             <div className="border-t border-outline-variant pt-4">
               <label className="font-['Geist'] text-[12px] font-bold text-primary block mb-3">CATEGORY</label>
-              <div className="space-y-2">
-                {parentCategories.map((cat) => (
-                  <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={activeCategory === cat.id}
-                      onChange={() => setActiveCategory(activeCategory === cat.id ? '' : cat.id)}
-                      className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary"
-                    />
-                    <span className={`font-['Geist'] text-[14px] group-hover:text-primary ${activeCategory === cat.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{cat.name}</span>
-                  </label>
-                ))}
+              <div className="space-y-1">
+                {parentCategories.map((cat) => {
+                  const subcats = categories.filter(c => c.parentId === cat.id)
+                  const isExpanded = expandedCats.has(cat.id)
+                  return (
+                    <div key={cat.id}>
+                      <div className="flex items-center gap-3 cursor-pointer group py-1" onClick={() => {
+                        if (subcats.length > 0) {
+                          setExpandedCats(prev => {
+                            const next = new Set(prev)
+                            if (next.has(cat.id)) next.delete(cat.id)
+                            else next.add(cat.id)
+                            return next
+                          })
+                        }
+                        setActiveCategory(activeCategory === cat.id ? '' : cat.id)
+                      }}>
+                        <input
+                          type="checkbox"
+                          checked={activeCategory === cat.id}
+                          readOnly
+                          className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary pointer-events-none"
+                        />
+                        <span className={`font-['Geist'] text-[14px] group-hover:text-primary flex-1 ${activeCategory === cat.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{cat.name}</span>
+                        {subcats.length > 0 && (
+                          <span className={`material-symbols-outlined text-[16px] text-outline transition-transform ${isExpanded ? 'rotate-180' : ''}`}>expand_more</span>
+                        )}
+                      </div>
+                      {isExpanded && subcats.length > 0 && (
+                        <div className="ml-7 space-y-1 pb-1">
+                          {subcats.map((sub) => (
+                            <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="checkbox"
+                                checked={activeCategory === sub.id}
+                                onChange={() => setActiveCategory(activeCategory === sub.id ? '' : sub.id)}
+                                className="w-3.5 h-3.5 rounded border-outline-variant text-secondary focus:ring-secondary"
+                              />
+                              <span className={`font-['Geist'] text-[13px] group-hover:text-primary ${activeCategory === sub.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{sub.name}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
 
