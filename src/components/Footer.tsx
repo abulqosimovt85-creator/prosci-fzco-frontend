@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Footer() {
   return (
     <footer className="w-full pt-12 pb-6 bg-tertiary text-white">
@@ -30,36 +32,21 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Product Catalog</h4>
+          <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Quick Links</h4>
           <ul className="space-y-3 opacity-80 text-[16px] leading-relaxed">
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Centrifuges</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Spectrometers</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Lab Furniture</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Cold Storage</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Sterilization</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Our Solutions</h4>
-          <ul className="space-y-3 opacity-80 text-[16px] leading-relaxed">
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Lab Design</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Equipment Leasing</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Calibration Services</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Asset Recovery</li>
-            <li className="hover:text-secondary-fixed transition-colors cursor-pointer">Global Logistics</li>
+            <li><Link to="/products" className="hover:text-secondary-fixed transition-colors">Product Catalog</Link></li>
+            <li><Link to="/solutions" className="hover:text-secondary-fixed transition-colors">Solutions</Link></li>
+            <li><Link to="/services" className="hover:text-secondary-fixed transition-colors">Technical Support</Link></li>
+            <li><Link to="/about" className="hover:text-secondary-fixed transition-colors">About Us</Link></li>
+            <li><Link to="/contact" className="hover:text-secondary-fixed transition-colors">Contact</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Company</h4>
           <ul className="space-y-3 text-[16px] leading-relaxed">
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Compliance</li>
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Global Locations</li>
             <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Privacy Policy</li>
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Sustainability</li>
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Supplier Portal</li>
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Careers</li>
+            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Terms of Service</li>
           </ul>
         </div>
       </div>
@@ -68,10 +55,6 @@ export default function Footer() {
         <p className="font-['Geist'] text-[12px] font-semibold opacity-60">
           &copy; 2024 PROSCIENTIFIC SOLUTIONS FZCO. All rights reserved. ISO 9001:2015 Certified.
         </p>
-        <div className="flex gap-6 font-['Geist'] text-[12px] font-semibold">
-          <span className="opacity-60 hover:opacity-100 cursor-pointer">Terms of Service</span>
-          <span className="opacity-60 hover:opacity-100 cursor-pointer">Cookie Policy</span>
-        </div>
       </div>
     </footer>
   )
