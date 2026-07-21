@@ -7,7 +7,7 @@ export default function Footer() {
             <img
               src="/logo.svg"
               alt="PROSCIENTIFIC SOLUTIONS FZCO"
-              className="h-10 w-auto object-contain brightness-0 invert"
+              className="h-14 w-auto object-contain brightness-0 invert"
             />
           </div>
           <p className="opacity-60 text-[16px] leading-relaxed font-['Hanken_Grotesk']">

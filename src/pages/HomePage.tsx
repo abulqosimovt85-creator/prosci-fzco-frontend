@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 
 const manufacturerLogos = [
-  'PHARMA_CORE', 'SCITECH_INT', 'PRECISION_SYS', 'LAB_NEXUS', 'QUANTUM_LAB',
-  'BIO_STREAM', 'MICRO_OPTICS', 'THERMO_GEN', 'VERTEX_SCI', 'ELEMENT_LAB',
+  'Meta-Xrom', 'Normalab', 'Scentroid', 'MATEST', 'EVERFINE',
+  'LIB Industry', 'JEOL', 'Bioneer', 'Nexcope', 'SNOL',
+  'Binder', 'IKA', 'KERN & SOHN', 'Corrtest', 'Elvatech',
+  'Geolux', 'Hanwei', 'Honeywell', 'INSIZE', 'LI-COR',
+  'MSA', 'SUIN', 'GESTER',
 ]
 
 const sectors = [
