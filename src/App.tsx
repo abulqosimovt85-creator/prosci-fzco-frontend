@@ -5,7 +5,9 @@ import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
+import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
+import RdPage from './pages/RdPage'
 import AdminPage from './pages/AdminPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 
@@ -81,7 +83,10 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:id" element={<ProductDetailPage />} />
+                <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/solutions" element={<RdPage />} />
+                <Route path="/services" element={<RdPage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </PublicLayout>

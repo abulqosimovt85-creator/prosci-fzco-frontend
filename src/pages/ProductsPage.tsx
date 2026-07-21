@@ -1,174 +1,151 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchProducts, fetchCategories } from '../services/siteApi'
-import SectionHeading from '../components/SectionHeading'
-import type { Category } from '../types'
+import { fetchProducts, fetchCategories, fetchBrands } from '../services/siteApi'
+import type { Product, Category, Brand } from '../types'
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [brands, setBrands] = useState<Brand[]>([])
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('')
-  const [activeSubCategory, setActiveSubCategory] = useState('')
-  const [items, setItems] = useState<any[]>([])
-  const [allCategories, setAllCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchCategories().then(setAllCategories)
-  }, [])
+    Promise.all([
+      fetchProducts(search, activeCategory),
+      fetchCategories(),
+      fetchBrands(),
+    ]).then(([prods, cats, brs]) => {
+      setProducts(prods)
+      setCategories(cats)
+      setBrands(brs)
+    }).finally(() => setLoading(false))
+  }, [search, activeCategory])
 
-  useEffect(() => {
-    fetchProducts(search, '').then(setItems)
-  }, [search])
-
-  const parentCategories = useMemo(
-    () => allCategories.filter(c => !c.parentId),
-    [allCategories],
-  )
-
-  const subCategories = useMemo(
-    () => allCategories.filter(c => c.parentId && allCategories.find(p => p.id === c.parentId)?.name === activeCategory),
-    [allCategories, activeCategory],
-  )
-
-  const filteredItems = useMemo(() => {
-    return items.filter(product => {
-      const matchesCategory = activeCategory
-        ? product.category.startsWith(activeCategory)
-        : true
-      const matchesSubCategory = activeSubCategory
-        ? product.category.includes(activeSubCategory)
-        : true
-      return matchesCategory && matchesSubCategory
-    })
-  }, [items, activeCategory, activeSubCategory])
-
-  const activeLabel = useMemo(() => {
-    if (activeCategory && activeSubCategory) return `${activeCategory} > ${activeSubCategory}`
-    if (activeCategory) return activeCategory
-    return 'All categories'
-  }, [activeCategory, activeSubCategory])
+  const parentCategories = categories.filter(c => !c.parentId)
+  const resultCount = products.length
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-12">
-      <div className="grid gap-8 lg:grid-cols-[0.6fr_1.4fr]">
-        <div className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-          <SectionHeading
-            eyebrow="Products"
-            title="Elevate your lab capabilities"
-            description="Search equipment, consumables and chemicals backed by premium service and technical support."
-          />
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-slate-700">Search products</label>
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-700 focus:ring-2 focus:ring-brand-100"
-              placeholder="Brand, category or application"
-            />
-          </div>
-          <div>
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.3em] text-slate-500">Category</p>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => { setActiveCategory(''); setActiveSubCategory(''); }}
-                className={`rounded-full px-4 py-2 text-sm transition ${
-                  activeCategory === '' ? 'bg-brand-700 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                All
-              </button>
-              {parentCategories.map(category => (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => { setActiveCategory(category.name); setActiveSubCategory(''); }}
-                  className={`rounded-full px-4 py-2 text-sm transition ${
-                    activeCategory === category.name
-                      ? 'bg-brand-700 text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
+    <div className="bg-background min-h-screen">
+      <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-12">
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Sidebar Filters */}
+          <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary">Filters</h2>
+              <button onClick={() => { setSearch(''); setActiveCategory('') }} className="text-secondary font-['Geist'] text-[14px] font-medium hover:underline">Clear all</button>
             </div>
-          </div>
 
-          {subCategories.length > 0 && (
-            <div>
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.3em] text-slate-500">Subcategory</p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveSubCategory('')}
-                  className={`rounded-full px-3 py-1.5 text-xs transition ${
-                    activeSubCategory === '' ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
-                >
-                  All {activeCategory}
-                </button>
-                {subCategories.map(sub => (
-                  <button
-                    key={sub.id}
-                    type="button"
-                    onClick={() => setActiveSubCategory(sub.name)}
-                    className={`rounded-full px-3 py-1.5 text-xs transition ${
-                      activeSubCategory === sub.name
-                        ? 'bg-brand-600 text-white'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {sub.name}
-                  </button>
+            {/* Search */}
+            <div className="border-t border-outline-variant pt-4">
+              <label className="font-['Geist'] text-[12px] font-bold text-primary block mb-3">SEARCH</label>
+              <div className="flex items-center bg-surface-container-low border border-outline-variant rounded px-3 py-1.5">
+                <span className="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+                <input
+                  className="bg-transparent border-none focus:ring-0 text-[14px] w-full p-0 outline-none"
+                  placeholder="Search equipment..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Category */}
+            <div className="border-t border-outline-variant pt-4">
+              <label className="font-['Geist'] text-[12px] font-bold text-primary block mb-3">CATEGORY</label>
+              <div className="space-y-2">
+                {parentCategories.map((cat) => (
+                  <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={activeCategory === cat.id}
+                      onChange={() => setActiveCategory(activeCategory === cat.id ? '' : cat.id)}
+                      className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary"
+                    />
+                    <span className={`font-['Geist'] text-[14px] group-hover:text-primary ${activeCategory === cat.id ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{cat.name}</span>
+                  </label>
                 ))}
               </div>
             </div>
-          )}
 
-          <div className="rounded-3xl bg-slate-50 p-6 text-sm text-slate-700">
-            Viewing <span className="font-semibold text-slate-900">{filteredItems.length}</span> products in <span className="font-semibold text-slate-900">{activeLabel}</span>
-          </div>
-        </div>
-        <div className="space-y-6">
-          {filteredItems.length === 0 ? (
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-10 text-center text-slate-600 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-              <p className="text-xl font-semibold text-slate-900">No products match your search.</p>
+            {/* Manufacturer */}
+            <div className="border-t border-outline-variant pt-4">
+              <label className="font-['Geist'] text-[12px] font-bold text-primary block mb-3">MANUFACTURER</label>
+              <div className="space-y-2">
+                {brands.map((brand) => (
+                  <label key={brand.id} className="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary" />
+                    <span className="font-['Geist'] text-[14px] text-on-surface-variant group-hover:text-primary">{brand.name}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-          ) : (
-            <div className="grid gap-6">
-              {filteredItems.map(product => (
-                <article key={product.id} className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.06)] flex flex-col md:flex-row gap-6">
-                  {product.images && product.images.length > 0 && (
-                    <Link to={`/products/${product.id}`} className="h-32 w-32 shrink-0 overflow-hidden rounded-2xl border border-slate-100 hover:opacity-80 transition">
-                      <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover" />
+          </aside>
+
+          {/* Product Grid */}
+          <section className="flex-grow">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+              <p className="text-[16px] text-on-surface-variant">
+                <span className="font-bold text-primary">{resultCount}</span> results
+                {activeCategory && <> for <span className="italic text-secondary">{categories.find(c => c.id === activeCategory)?.name}</span></>}
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="font-['Geist'] text-[14px] font-medium text-outline">Sort by:</span>
+                <select className="bg-surface border-none text-[14px] font-semibold focus:ring-0 cursor-pointer text-primary outline-none">
+                  <option>Relevance</option>
+                  <option>Latest Models</option>
+                </select>
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-20 text-on-surface-variant">Loading products...</div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-20 bg-white border border-outline-variant">
+                <p className="text-[20px] font-semibold text-primary">No products found</p>
+                <p className="text-[16px] text-on-surface-variant mt-2">Try adjusting your filters or search terms.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div key={product.id} className="bg-white border border-outline-variant rounded p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+                    <div className="relative w-full aspect-square bg-surface-container-low mb-4 overflow-hidden flex items-center justify-center">
+                      {product.images?.[0] ? (
+                        <img className="w-full h-full object-contain p-6 mix-blend-multiply" alt={product.name} src={product.images[0]} />
+                      ) : (
+                        <span className="material-symbols-outlined text-[64px] text-outline">science</span>
+                      )}
+                    </div>
+                    <div className="flex-grow">
+                      <span className="block font-['Geist'] text-[12px] font-bold text-secondary mb-1">{product.brand?.toUpperCase()}</span>
+                      <h3 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary mb-2">{product.name}</h3>
+                      <p className="text-on-surface-variant text-[14px] leading-relaxed line-clamp-2 mb-4">{product.description}</p>
+                      {product.specs && Object.keys(product.specs).length > 0 && (
+                        <div className="space-y-1 mb-6">
+                          {Object.entries(product.specs).slice(0, 3).map(([key, value]) => (
+                            <div key={key} className="flex justify-between py-1 border-b border-surface-container-low">
+                              <span className="text-[12px] text-outline font-['Geist'] uppercase">{key}</span>
+                              <span className="text-[12px] text-primary font-semibold">{value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <Link
+                      to={`/products/${product.id}`}
+                      className="w-full bg-primary text-white py-2.5 font-['Geist'] text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-all"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">visibility</span>
+                      View Details
                     </Link>
-                  )}
-                  <div className="flex-1">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-sm uppercase tracking-[0.32em] text-slate-500">{product.category}</p>
-                        <Link to={`/products/${product.id}`}>
-                          <h3 className="mt-3 text-2xl font-semibold text-slate-950 hover:text-brand-700 transition cursor-pointer">{product.name}</h3>
-                        </Link>
-                        <p className="mt-3 text-sm leading-7 text-slate-600 line-clamp-2">{product.description}</p>
-                      </div>
-                      <span className="rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700 shrink-0 self-start sm:self-center">{product.brand}</span>
-                    </div>
-                    <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-600">
-                      <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2">{product.application}</span>
-                    </div>
-                    <div className="mt-6 flex flex-wrap items-center gap-4">
-                      <Link to="/contact" className="rounded-full bg-brand-700 px-4 py-2 text-sm text-white font-semibold hover:bg-brand-800 transition">
-                        Request quote
-                      </Link>
-                    </div>
                   </div>
-                </article>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </section>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
