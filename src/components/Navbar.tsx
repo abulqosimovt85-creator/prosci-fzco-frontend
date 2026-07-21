@@ -1,150 +1,57 @@
-import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link, NavLink } from 'react-router-dom'
 
 const navigation = [
-  { path: '/', label: 'Home' },
-  { path: '/products', label: 'Products' },
-  { path: '/solutions', label: 'Solutions' },
-  { path: '/services', label: 'Services' },
-  { path: '/industries', label: 'Industries' },
-  { path: '/insights', label: 'Insights' },
-  { path: '/contact', label: 'Contact' },
+  { name: 'Catalog', path: '/products' },
+  { name: 'Solutions', path: '/solutions' },
+  { name: 'Technical Support', path: '/services' },
+  { name: 'About Us', path: '/about' },
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled ? 'backdrop-blur-xl shadow-md bg-white/90 border-b border-slate-100' : 'bg-transparent border-b border-transparent'
-    }`}>
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-4 md:px-8">
-        {/* Logo Section */}
-        <NavLink to="/" className="flex items-center group focus:outline-none shrink-0">
+    <nav className="sticky top-0 w-full z-50 bg-white border-b border-outline-variant shadow-sm">
+      <div className="flex items-center justify-between px-5 md:px-16 py-3 max-w-[1280px] mx-auto">
+        <Link to="/" className="flex items-center shrink-0">
           <img
             src="/logo.svg"
-            alt="ProScient - Smart Science. Real Impact."
-            className="h-16 w-auto transition group-hover:opacity-90"
+            alt="PROSCIENTIFIC SOLUTIONS FZCO"
+            className="h-10 w-auto object-contain"
           />
-        </NavLink>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-4 xl:gap-6 xl:flex">
-          {navigation.filter(item => item.path !== '/admin').map(item => (
+        <div className="hidden md:flex items-center gap-8">
+          {navigation.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition relative py-1 hover:text-slate-900 focus:outline-none ${
-                  isActive ? 'text-brand-900 font-semibold' : 'text-slate-600'
+                `font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-medium transition-colors ${
+                  isActive
+                    ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
+                    : 'text-on-surface-variant hover:text-primary'
                 }`
               }
             >
-              {({ isActive }) => (
-                <>
-                  {item.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNav"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-900 rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </>
-              )}
+              {item.name}
             </NavLink>
           ))}
-        </nav>
-
-        {/* Desktop Settings & Call to Action */}
-        <div className="hidden items-center gap-3 xl:gap-4 xl:flex">
-          <NavLink
-            to="/contact"
-            className="rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white transition-all shadow-[0_10px_25px_-5px_rgba(21,63,120,0.4)] hover:bg-brand-800 hover:shadow-[0_15px_30px_-5px_rgba(21,63,120,0.5)] active:scale-95"
-          >
-            Get Quote
-          </NavLink>
         </div>
 
-        {/* Mobile Hamburger Menu Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-all xl:hidden hover:bg-slate-50 active:scale-90"
-          aria-label="Toggle menu"
-          type="button"
-        >
-          <svg
-            className="h-5 w-5 fill-none stroke-current stroke-2"
-            viewBox="0 0 24 24"
+        <div className="flex items-center gap-4">
+          <Link
+            to="/admin/login"
+            className="hidden md:block font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-medium text-on-surface-variant hover:text-primary transition-colors"
           >
-            <motion.path
-              animate={mobileMenuOpen ? { d: 'M 18 6 L 6 18' } : { d: 'M 3 12 L 21 12' }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.path
-              animate={mobileMenuOpen ? { d: 'M 6 6 L 18 18' } : { d: 'M 3 6 L 21 6' }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.path
-              animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1, d: 'M 3 18 L 21 18' }}
-              transition={{ duration: 0.2 }}
-            />
-          </svg>
-        </button>
+            Log In
+          </Link>
+          <Link
+            to="/contact"
+            className="bg-primary text-white px-6 py-2 font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-semibold rounded-lg hover:bg-primary-container transition-all"
+          >
+            Request Quote
+          </Link>
+        </div>
       </div>
-
-      {/* Mobile Navigation Drawer */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden border-b border-slate-200 bg-white/95 backdrop-blur-xl xl:hidden shadow-lg"
-          >
-            <div className="flex flex-col gap-5 px-6 py-6 border-t border-slate-100">
-              <nav className="flex flex-col gap-4">
-                {navigation.map(item => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `text-base font-semibold py-2 transition ${
-                        isActive ? 'text-brand-900 border-l-4 border-brand-900 pl-3' : 'text-slate-600 hover:text-slate-900 pl-0'
-                      }`
-                    }
-                  >
-                    {item.label}
-                  </NavLink>
-                ))}
-              </nav>
-
-              <hr className="border-slate-100" />
-
-              <div className="flex flex-col gap-3 mt-2">
-                <NavLink
-                  to="/contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-full bg-brand-700 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-800 shadow-[0_10px_20px_-5px_rgba(21,63,120,0.4)]"
-                >
-                  Get Quote
-                </NavLink>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+    </nav>
   )
 }
