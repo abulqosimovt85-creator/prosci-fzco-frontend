@@ -56,7 +56,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Leadership */}
+      {/* Leadership - commented out per client request
       <section className="py-12 bg-surface-container-low">
         <div className="max-w-[1280px] mx-auto px-5 md:px-16">
           <div className="mb-8 text-center">
@@ -84,6 +84,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Certifications */}
       <section className="py-12">
