@@ -68,7 +68,7 @@ export default function HomePage() {
               <span className="font-['Geist'] text-[12px] font-semibold text-on-secondary-fixed-variant">ISO 9001:2015 CERTIFIED</span>
             </div>
             <h1 className="font-['Hanken_Grotesk'] text-[48px] leading-[1.1] tracking-[-0.02em] font-bold text-primary max-w-2xl">
-              Precision Equipment by PROSCIENTIFIC SOLUTIONS FZCO
+              Precision Equipment for Scientific Discovery
             </h1>
             <p className="text-[18px] leading-relaxed text-on-surface-variant max-w-xl font-['Hanken_Grotesk']">
               Empowering scientific discovery with technical accuracy, reliable procurement workflows, and high-performance instrumentation across global markets.
