@@ -19,7 +19,6 @@ async function apiFetch<T>(path: string, fallbackData: T): Promise<T> {
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     return await res.json()
   } catch (error) {
-    console.warn(`[API Info] Endpoint ${path} not available. Using high-fidelity local content.`, error)
     return fallbackData
   }
 }
@@ -67,7 +66,6 @@ export async function fetchProducts(search = '', category = ''): Promise<Product
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     return await res.json()
   } catch (error) {
-    console.warn(`[API Info] Products API offline. Using local filtering.`, error)
     const normalized = search.trim().toLowerCase()
     return products.filter(product => {
       const matchesCategory = category ? product.category === category || product.category.toLowerCase().replace(/\s+/g, '-') === category : true
@@ -88,7 +86,6 @@ export async function fetchProductById(id: string): Promise<Product | undefined>
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     return await res.json()
   } catch (error) {
-    console.warn(`[API Info] Product detail API offline. Using local lookup for ID: ${id}`)
     return products.find(product => product.id === id)
   }
 }

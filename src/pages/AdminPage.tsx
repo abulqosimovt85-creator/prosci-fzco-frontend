@@ -81,7 +81,6 @@ export default function AdminPage() {
       setCategoriesList(cats)
       setBrandsList(brs)
     } catch (err) {
-      console.error('Error loading admin dashboard data:', err)
       setError('Could not establish a stable connection to the database. Running in offline resilient mode.')
     } finally {
       setLoading(false)
@@ -161,7 +160,6 @@ export default function AdminPage() {
         const result = await uploadProductImage(file)
         setProdFormImages(prev => [...prev, result.url])
       } catch (err) {
-        console.error('Failed to upload image:', err)
         alert(`Failed to upload image: ${err instanceof Error ? err.message : String(err)}`)
       }
     }
@@ -191,7 +189,7 @@ export default function AdminPage() {
         const result = await uploadProductImage(file)
         setProdFormImages(prev => [...prev, result.url])
       } catch (err) {
-        console.error('Failed to upload image:', err)
+        // silent fail for drag-drop
       }
     }
   }
@@ -232,7 +230,6 @@ export default function AdminPage() {
       setAiFeedback('Success! Technical details generated.')
       setTimeout(() => setAiFeedback(null), 3000)
     } catch (err) {
-      console.error(err)
       setAiFeedback('AI model is offline. Used scientific templates instead.')
       // Dynamic local templates as robust backup
       const demoSpecs: Record<string, string> = {
