@@ -176,12 +176,7 @@ export default function RdPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/contact" className="px-8 py-4 bg-primary text-white font-['Hanken_Grotesk'] text-[20px] font-semibold rounded shadow-lg hover:opacity-90 transition-all text-center">Schedule Consultation</Link>
           </div>
-          <div className="mt-8 flex items-center justify-center gap-8 grayscale opacity-50">
-            <span className="font-['Geist'] text-[14px] font-bold">TRUSTED BY:</span>
-            <span className="font-['Hanken_Grotesk'] text-[20px] font-bold tracking-widest">MIT</span>
-            <span className="font-['Hanken_Grotesk'] text-[20px] font-bold tracking-widest">STANFORD</span>
-            <span className="font-['Hanken_Grotesk'] text-[20px] font-bold tracking-widest">MAX PLANCK</span>
-          </div>
+
         </div>
       </section>
     </div>
