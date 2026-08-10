@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { fetchProductById } from '../services/siteApi'
+import { fetchProductById, submitInquiry } from '../services/siteApi'
 import type { Product } from '../types'
 import SectionHeading from '../components/SectionHeading'
 
@@ -11,6 +11,10 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | undefined>(undefined)
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [inquiryOpen, setInquiryOpen] = useState(false)
+  const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [inquiryLoading, setInquiryLoading] = useState(false)
+  const [inquirySubmitted, setInquirySubmitted] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -102,12 +106,12 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to={`/contact?product=${product.id}&productName=${encodeURIComponent(product.name)}`} className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-700 px-8 py-4 text-sm font-bold text-white hover:bg-brand-800 shadow-lg shadow-brand-200 transition-all active:scale-[0.98] border-2 border-brand-700">
+                <button onClick={() => { setInquiryOpen(true); setInquirySubmitted(false); setInquiryForm({ name: '', email: '', phone: '', message: '' }) }} className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-700 px-8 py-4 text-sm font-bold text-white hover:bg-brand-800 shadow-lg shadow-brand-200 transition-all active:scale-[0.98] border-2 border-brand-700 cursor-pointer">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                   Request Technical Quote
-                </Link>
+                </button>
                 <a href={product.pdf} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-8 py-4 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all">
                   <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -238,6 +242,94 @@ export default function ProductDetailPage() {
               className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Inquiry Modal */}
+      <AnimatePresence>
+        {inquiryOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setInquiryOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {inquirySubmitted ? (
+                <div className="text-center py-8">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-white mb-4">
+                    <span className="material-symbols-outlined text-[32px]">check</span>
+                  </div>
+                  <h3 className="font-['Hanken_Grotesk'] text-[24px] font-semibold text-primary mb-2">Thank you!</h3>
+                  <p className="text-[16px] text-on-surface-variant mb-6">Your inquiry has been submitted. We'll respond within 2-4 business hours.</p>
+                  <button onClick={() => setInquiryOpen(false)} className="bg-primary text-white px-6 py-3 font-['Geist'] text-[14px] font-bold rounded-lg hover:bg-primary-container transition-all">Close</button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="font-['Hanken_Grotesk'] text-[24px] font-semibold text-primary">Inquire About</h3>
+                      <p className="text-[16px] text-secondary font-semibold">{product.name}</p>
+                    </div>
+                    <button onClick={() => setInquiryOpen(false)} className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                      <span className="material-symbols-outlined text-[24px]">close</span>
+                    </button>
+                  </div>
+
+                  <form className="space-y-4" onSubmit={async (e) => {
+                    e.preventDefault()
+                    setInquiryLoading(true)
+                    try {
+                      await submitInquiry({
+                        name: inquiryForm.name,
+                        company: '',
+                        email: inquiryForm.email,
+                        phone: inquiryForm.phone,
+                        message: inquiryForm.message,
+                        industry: product.category,
+                        budget: '',
+                        productId: product.id,
+                      })
+                      setInquirySubmitted(true)
+                    } catch {
+                      setInquirySubmitted(true)
+                    } finally {
+                      setInquiryLoading(false)
+                    }
+                  }}>
+                    <div className="space-y-2">
+                      <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">FULL NAME</label>
+                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your name" value={inquiryForm.name} onChange={(e) => setInquiryForm(prev => ({ ...prev, name: e.target.value }))} required />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">EMAIL</label>
+                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="email@example.com" type="email" value={inquiryForm.email} onChange={(e) => setInquiryForm(prev => ({ ...prev, email: e.target.value }))} required />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">PHONE</label>
+                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="+971 50 123 4567" type="tel" value={inquiryForm.phone} onChange={(e) => setInquiryForm(prev => ({ ...prev, phone: e.target.value }))} required />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">MESSAGE</label>
+                      <textarea className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your inquiry details..." rows={4} value={inquiryForm.message} onChange={(e) => setInquiryForm(prev => ({ ...prev, message: e.target.value }))} required />
+                    </div>
+                    <button type="submit" disabled={inquiryLoading} className="w-full bg-primary text-white py-3 font-['Geist'] text-[14px] font-bold uppercase tracking-wider hover:bg-primary-container transition-all disabled:opacity-50 cursor-pointer">
+                      {inquiryLoading ? 'Submitting...' : 'Send Inquiry'}
+                    </button>
+                  </form>
+                </>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
