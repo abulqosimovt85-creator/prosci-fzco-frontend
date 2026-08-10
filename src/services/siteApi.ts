@@ -56,11 +56,12 @@ export function logout(): void {
 }
 
 // PUBLIC PRODUCTS API
-export async function fetchProducts(search = '', category = ''): Promise<Product[]> {
+export async function fetchProducts(search = '', category = '', brand = ''): Promise<Product[]> {
   try {
     const query = new URLSearchParams()
     if (search) query.append('search', search)
     if (category) query.append('category', category)
+    if (brand) query.append('brand', brand)
 
     const res = await fetch(`${API_BASE}/products?${query.toString()}`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)

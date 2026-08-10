@@ -9,13 +9,15 @@ export default function ProductsPage() {
   const [brands, setBrands] = useState<Brand[]>([])
   const [search, setSearch] = useState('')
   const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set())
+  const [activeBrands, setActiveBrands] = useState<Set<string>>(new Set())
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const catParam = activeCategories.size > 0 ? Array.from(activeCategories).join(',') : ''
+    const brandParam = activeBrands.size > 0 ? Array.from(activeBrands).join(',') : ''
     Promise.all([
-      fetchProducts(search, catParam),
+      fetchProducts(search, catParam, brandParam),
       fetchCategories(),
       fetchBrands(),
     ]).then(([prods, cats, brs]) => {
@@ -23,13 +25,22 @@ export default function ProductsPage() {
       setCategories(cats)
       setBrands(brs)
     }).finally(() => setLoading(false))
-  }, [search, activeCategories])
+  }, [search, activeCategories, activeBrands])
 
   const toggleCategory = (catId: string) => {
     setActiveCategories(prev => {
       const next = new Set(prev)
       if (next.has(catId)) next.delete(catId)
       else next.add(catId)
+      return next
+    })
+  }
+
+  const toggleBrand = (brandId: string) => {
+    setActiveBrands(prev => {
+      const next = new Set(prev)
+      if (next.has(brandId)) next.delete(brandId)
+      else next.add(brandId)
       return next
     })
   }
@@ -45,7 +56,7 @@ export default function ProductsPage() {
           <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary">Filters</h2>
-              <button onClick={() => { setSearch(''); setActiveCategories(new Set()) }} className="text-secondary font-['Geist'] text-[14px] font-medium hover:underline">Clear all</button>
+              <button onClick={() => { setSearch(''); setActiveCategories(new Set()); setActiveBrands(new Set()) }} className="text-secondary font-['Geist'] text-[14px] font-medium hover:underline">Clear all</button>
             </div>
 
             {/* Search */}
@@ -120,8 +131,13 @@ export default function ProductsPage() {
               <div className="space-y-2">
                 {brands.map((brand) => (
                   <label key={brand.id} className="flex items-center gap-3 cursor-pointer group">
-                    <input type="checkbox" className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary" />
-                    <span className="font-['Geist'] text-[14px] text-on-surface-variant group-hover:text-primary">{brand.name}</span>
+                    <input
+                      type="checkbox"
+                      checked={activeBrands.has(brand.id)}
+                      onChange={() => toggleBrand(brand.id)}
+                      className="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary"
+                    />
+                    <span className={`font-['Geist'] text-[14px] group-hover:text-primary ${activeBrands.has(brand.id) ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{brand.name}</span>
                   </label>
                 ))}
               </div>
