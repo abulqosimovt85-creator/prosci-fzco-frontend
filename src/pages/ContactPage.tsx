@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { submitInquiry } from '../services/siteApi'
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', organization: '', email: '', interest: '', message: '' })
+  const [form, setForm] = useState({ name: '', organization: '', email: '', phone: '', interest: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -12,7 +12,7 @@ export default function ContactPage() {
     e.preventDefault()
     setLoading(true)
     try {
-      await submitInquiry({ name: form.name, company: form.organization, email: form.email, phone: '', message: form.message, industry: form.interest, budget: '' })
+      await submitInquiry({ name: form.name, company: form.organization, email: form.email, phone: form.phone, message: form.message, industry: form.interest, budget: '' })
       setSubmitted(true)
     } catch {
       setSubmitted(true)
@@ -44,7 +44,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-['Hanken_Grotesk'] text-[24px] font-semibold text-primary mb-2">Thank you!</h3>
                 <p className="text-[16px] text-on-surface-variant">Your inquiry has been submitted. We'll respond within 2-4 business hours.</p>
-                <button onClick={() => { setSubmitted(false); setForm({ name: '', organization: '', email: '', interest: '', message: '' }) }} className="mt-6 text-secondary font-['Geist'] text-[14px] font-bold hover:underline">Submit another inquiry</button>
+                <button onClick={() => { setSubmitted(false); setForm({ name: '', organization: '', email: '', phone: '', interest: '', message: '' }) }} className="mt-6 text-secondary font-['Geist'] text-[14px] font-bold hover:underline">Submit another inquiry</button>
               </div>
             ) : (
               <form className="space-y-6" onSubmit={handleSubmit}>
@@ -74,6 +74,10 @@ export default function ContactPage() {
                       <option>Other</option>
                     </select>
                   </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">PHONE NUMBER</label>
+                  <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="+971 50 123 4567" type="tel" value={form.phone} onChange={(e) => handleChange('phone', e.target.value)} required />
                 </div>
                 <div className="space-y-2">
                   <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">INQUIRY DETAILS</label>
