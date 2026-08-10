@@ -12,7 +12,7 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [inquiryOpen, setInquiryOpen] = useState(false)
-  const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [inquiryForm, setInquiryForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [inquiryLoading, setInquiryLoading] = useState(false)
   const [inquirySubmitted, setInquirySubmitted] = useState(false)
 
@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={() => { setInquiryOpen(true); setInquirySubmitted(false); setInquiryForm({ name: '', email: '', phone: '', message: '' }) }} className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-700 px-8 py-4 text-sm font-bold text-white hover:bg-brand-800 shadow-lg shadow-brand-200 transition-all active:scale-[0.98] border-2 border-brand-700 cursor-pointer">
+                <button onClick={() => { setInquiryOpen(true); setInquirySubmitted(false);                       setInquiryForm({ name: '', company: '', email: '', phone: '', message: '' }) }} className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-700 px-8 py-4 text-sm font-bold text-white hover:bg-brand-800 shadow-lg shadow-brand-200 transition-all active:scale-[0.98] border-2 border-brand-700 cursor-pointer">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
@@ -290,7 +290,7 @@ export default function ProductDetailPage() {
                     try {
                       await submitInquiry({
                         name: inquiryForm.name,
-                        company: '',
+                        company: inquiryForm.company,
                         email: inquiryForm.email,
                         phone: inquiryForm.phone,
                         message: inquiryForm.message,
@@ -308,6 +308,10 @@ export default function ProductDetailPage() {
                     <div className="space-y-2">
                       <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">FULL NAME</label>
                       <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your name" value={inquiryForm.name} onChange={(e) => setInquiryForm(prev => ({ ...prev, name: e.target.value }))} required />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">COMPANY</label>
+                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Company name" value={inquiryForm.company} onChange={(e) => setInquiryForm(prev => ({ ...prev, company: e.target.value }))} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
