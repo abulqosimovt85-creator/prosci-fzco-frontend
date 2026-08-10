@@ -1,7 +1,12 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { submitInquiry } from '../services/siteApi'
 
 export default function ContactPage() {
+  const [searchParams] = useSearchParams()
+  const productId = searchParams.get('product') || ''
+  const productName = searchParams.get('productName') || ''
+
   const [form, setForm] = useState({ name: '', organization: '', email: '', phone: '', interest: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -12,7 +17,7 @@ export default function ContactPage() {
     e.preventDefault()
     setLoading(true)
     try {
-      await submitInquiry({ name: form.name, company: form.organization, email: form.email, phone: form.phone, message: form.message, industry: form.interest, budget: '' })
+      await submitInquiry({ name: form.name, company: form.organization, email: form.email, phone: form.phone, message: form.message, industry: form.interest, budget: '', productId })
       setSubmitted(true)
     } catch {
       setSubmitted(true)
@@ -48,6 +53,15 @@ export default function ContactPage() {
               </div>
             ) : (
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {productName && (
+                  <div className="bg-surface-container-low border border-outline-variant p-4 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-secondary">inventory_2</span>
+                    <div>
+                      <span className="text-[12px] font-['Geist'] font-bold text-on-surface-variant uppercase">Inquiry about</span>
+                      <p className="text-[16px] font-semibold text-primary">{productName}</p>
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">FULL NAME</label>
