@@ -115,13 +115,20 @@ export default function ContactPage() {
                 {[
                   { icon: 'phone_in_talk', label: 'Main Line', value: '+971 52 781 0506' },
                   { icon: 'mail', label: 'Email Inquiry', value: 'info@psci-sol.com' },
-                  { icon: 'location_on', label: 'Headquarters', value: 'IFZA Business Park, Building A1\nDubai Digital Park, Dubai Silicon Oasis\nDubai, United Arab Emirates' },
+                  { icon: 'location_on', label: 'Headquarters', value: 'IFZA Business Park, Building A1\nDubai Digital Park, Dubai Silicon Oasis\nDubai, United Arab Emirates', link: 'https://www.google.com/maps?q=25.1084,55.3784&z=17' },
                 ].map((item) => (
                   <div key={item.label} className="flex items-start gap-4">
                     <span className="material-symbols-outlined text-secondary-fixed">{item.icon}</span>
                     <div>
                       <p className="font-['Geist'] text-[12px] font-semibold text-white/60 uppercase tracking-widest">{item.label}</p>
-                      <p className="text-[16px] whitespace-pre-line">{item.value}</p>
+                      {item.link ? (
+                        <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-[16px] whitespace-pre-line hover:underline inline-flex items-start gap-1">
+                          {item.value}
+                          <span className="material-symbols-outlined text-[14px] mt-1">open_in_new</span>
+                        </a>
+                      ) : (
+                        <p className="text-[16px] whitespace-pre-line">{item.value}</p>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -129,9 +136,9 @@ export default function ContactPage() {
             </div>
 
             {/* Map */}
-            <div className="bg-surface-container-high border border-outline-variant overflow-hidden flex-grow min-h-[300px]">
+            <div className="bg-surface-container-high border border-outline-variant overflow-hidden flex-grow min-h-[300px] relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3611.8!2d55.4!3d25.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5ee5a0b1e3e5%3A0x0!2sIFZA+Business+Park%2C+Building+A1%2C+Dubai+Digital+Park%2C+Dubai+Silicon+Oasis%2C+Dubai!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.0!2d55.3784!3d25.1084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6f9f1fbfb607%3A0x4db0a2f5f59532d9!2sIFZA%20Business%20Park%2C%20Building%20A1!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '300px' }}
@@ -140,6 +147,15 @@ export default function ContactPage() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="ProScientific Solutions FZCO Location"
               />
+              <a
+                href="https://www.google.com/maps?q=25.1084,55.3784&z=17&t=m"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-3 left-3 bg-white px-3 py-2 text-[13px] font-semibold text-primary shadow-md rounded-lg flex items-center gap-2 hover:bg-slate-50 transition-colors"
+              >
+                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                Open in Maps
+              </a>
             </div>
           </div>
         </div>
