@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 const manufacturerLogos = [
-  { name: 'JASCO', logo: '/partners/jasco.png' },
+  { name: 'JASCO', logo: '/partners/jasco-logo@2x (1).png' },
   { name: 'Normalab', logo: '/partners/logo-normalab.svg' },
   { name: 'Nexcope', logo: '/partners/nexcope.png' },
   { name: 'JEOL', logo: '/partners/JEOL_company_logo.svg.webp' },
@@ -175,7 +175,7 @@ export default function HomePage() {
         <div className="relative overflow-hidden whitespace-nowrap">
           <div className="scrolling-wrapper">
             {[...manufacturerLogos, ...manufacturerLogos].map((logo, i) => (
-              <div key={i} className="w-[250px] flex items-center justify-center px-8 grayscale hover:grayscale-0 transition-all opacity-50 hover:opacity-100">
+              <div key={i} className="w-[250px] flex items-center justify-center px-8 opacity-70 hover:opacity-100 transition-all">
                 <img src={logo.logo} alt={logo.name} className="h-12 w-auto object-contain" />
               </div>
             ))}
