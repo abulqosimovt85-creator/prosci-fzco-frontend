@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 
 const manufacturerLogos = [
-  'Meta-Xrom', 'Normalab', 'Scentroid', 'MATEST', 'EVERFINE',
-  'LIB Industry', 'JEOL', 'Bioneer', 'Nexcope', 'SNOL',
-  'Binder', 'IKA', 'KERN & SOHN', 'Corrtest', 'Elvatech',
-  'Geolux', 'Hanwei', 'Honeywell', 'INSIZE', 'LI-COR',
-  'MSA', 'SUIN', 'GESTER',
+  { name: 'JASCO', logo: '/partners/jasco.svg' },
+  { name: 'Normalab', logo: '/partners/normalab.svg' },
+  { name: 'Nexcope', logo: '/partners/nexcope.svg' },
+  { name: 'JEOL', logo: '/partners/jeol.svg' },
+  { name: 'Young In Chromass', logo: '/partners/youngin.svg' },
+  { name: 'Elvatech', logo: '/partners/elvatech.svg' },
 ]
 
 const sectors = [
@@ -175,7 +176,7 @@ export default function HomePage() {
           <div className="scrolling-wrapper">
             {[...manufacturerLogos, ...manufacturerLogos].map((logo, i) => (
               <div key={i} className="w-[250px] flex items-center justify-center px-8 grayscale hover:grayscale-0 transition-all opacity-50 hover:opacity-100">
-                <div className="font-['Hanken_Grotesk'] text-[20px] font-bold text-primary">{logo}</div>
+                <img src={logo.logo} alt={logo.name} className="h-12 w-auto object-contain" />
               </div>
             ))}
           </div>
