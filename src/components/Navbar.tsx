@@ -13,6 +13,7 @@ const navigation = [
 
 export default function Navbar() {
   const [catalogOpen, setCatalogOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const [catLoading, setCatLoading] = useState(false)
 
@@ -30,15 +31,27 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 w-full z-50 bg-white border-b border-outline-variant shadow-sm">
-      <div className="flex items-center justify-between px-5 md:px-16 py-3 max-w-[1280px] mx-auto">
+      <div className="flex items-center justify-between px-4 md:px-16 py-3 max-w-[1280px] mx-auto">
         <Link to="/" className="flex items-center shrink-0">
           <img
             src="/logo.svg"
             alt="PROSCIENTIFIC SOLUTIONS FZCO"
-            className="h-20 w-auto object-contain"
+            className="h-14 md:h-20 w-auto object-contain"
           />
         </Link>
 
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2 text-primary hover:bg-slate-100 rounded-lg transition-colors"
+          aria-label="Toggle menu"
+        >
+          <span className="material-symbols-outlined text-[28px]">
+            {mobileMenuOpen ? 'close' : 'menu'}
+          </span>
+        </button>
+
+        {/* Desktop navigation */}
         <div className="hidden md:flex items-center gap-8">
           {navigation.map((item) => {
             if (item.name === 'Catalog') {
@@ -135,7 +148,8 @@ export default function Navbar() {
           })}
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Request Quote button - hidden on mobile, shown on desktop */}
+        <div className="hidden md:flex items-center">
           <Link
             to="/contact"
             className="bg-primary text-white px-6 py-2 font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-semibold rounded-lg hover:bg-primary-container transition-all"
@@ -144,6 +158,37 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+
+      {/* Mobile menu drawer */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-outline-variant bg-white">
+          <div className="px-4 py-4 space-y-1">
+            {navigation.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block py-3 px-4 font-['Geist'] text-[15px] font-medium rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-on-surface-variant hover:bg-slate-50 hover:text-primary'
+                  }`
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))}
+            <Link
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block mt-4 text-center bg-primary text-white px-6 py-3 font-['Geist'] text-[14px] font-semibold rounded-lg hover:bg-primary-container transition-all"
+            >
+              Request Quote
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
