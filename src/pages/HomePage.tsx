@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom'
 
 const manufacturerLogos = [
   { name: 'JASCO', logo: '/partners/jasco.png' },
-  { name: 'Normalab', logo: '/partners/normalab.jpg' },
-  { name: 'Nexcope', logo: '/partners/nexcope.jpg' },
-  { name: 'JEOL', logo: '/partners/jeol.png' },
-  { name: 'Young In Chromass', logo: '/partners/youngin.jpg' },
-  { name: 'Elvatech', logo: '/partners/elvatech.jpg' },
+  { name: 'Normalab', logo: '/partners/logo-normalab.svg' },
+  { name: 'Nexcope', logo: '/partners/nexcope.png' },
+  { name: 'JEOL', logo: '/partners/JEOL_company_logo.svg.webp' },
+  { name: 'Young In Chromass', logo: '/partners/youngin.png' },
+  { name: 'Elvatech', logo: '/partners/Elvatech-Logo.webp' },
 ]
 
 const sectors = [
