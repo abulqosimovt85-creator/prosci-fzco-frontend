@@ -129,18 +129,17 @@ export default function ContactPage() {
             </div>
 
             {/* Map */}
-            <div className="bg-surface-container-high border border-outline-variant relative overflow-hidden flex-grow min-h-[300px]">
-              <div className="w-full h-full bg-slate-200 flex items-center justify-center">
-                <div className="text-center">
-                  <span className="material-symbols-outlined text-[48px] text-outline">map</span>
-                  <p className="text-[14px] text-on-surface-variant mt-2">Dubai Silicon Oasis</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-primary text-white p-4 shadow-lg border border-secondary-fixed">
-                  <p className="font-['Geist'] text-[14px] font-medium">PROSCIENTIFIC SOLUTIONS FZCO</p>
-                </div>
-              </div>
+            <div className="bg-surface-container-high border border-outline-variant overflow-hidden flex-grow min-h-[300px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3611.8!2d55.4!3d25.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5ee5a0b1e3e5%3A0x0!2sIFZA+Business+Park%2C+Building+A1%2C+Dubai+Digital+Park%2C+Dubai+Silicon+Oasis%2C+Dubai!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '300px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="ProScientific Solutions FZCO Location"
+              />
             </div>
           </div>
         </div>
