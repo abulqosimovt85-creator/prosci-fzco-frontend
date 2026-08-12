@@ -5,11 +5,11 @@ export default function Footer() {
     <footer className="w-full pt-12 pb-6 bg-tertiary text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 px-5 md:px-16 max-w-[1280px] mx-auto">
         <div className="space-y-4">
-          <div className="flex items-center mb-2">
+          <div className="mb-2 inline-block bg-white rounded-lg px-5 py-4">
             <img
-              src="/logo.svg"
+              src="/logo.png"
               alt="PROSCIENTIFIC SOLUTIONS FZCO"
-              className="h-14 w-auto object-contain brightness-0 invert"
+              className="h-20 w-auto object-contain"
             />
           </div>
           <p className="opacity-60 text-[16px] leading-relaxed font-['Hanken_Grotesk']">

@@ -34,9 +34,9 @@ export default function Navbar() {
       <div className="flex items-center justify-between px-4 md:px-16 py-3 max-w-[1280px] mx-auto">
         <Link to="/" className="flex items-center shrink-0">
           <img
-            src="/logo.svg"
+            src="/logo.png"
             alt="PROSCIENTIFIC SOLUTIONS FZCO"
-            className="h-14 md:h-20 w-auto object-contain"
+            className="h-20 md:h-28 w-auto object-contain"
           />
         </Link>
 
