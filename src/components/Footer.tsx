@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer className="w-full pt-12 pb-6 bg-tertiary text-white">
+    <footer className="w-full pt-12 pb-6 bg-[#031429] text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 px-5 md:px-16 max-w-[1280px] mx-auto">
         <div className="space-y-4">
-          <div className="mb-2 inline-block bg-white rounded-lg px-5 py-4">
+          <div className="mb-2">
             <img
-              src="/logo.png"
+              src="/logo-footer.png"
               alt="PROSCIENTIFIC SOLUTIONS FZCO"
-              className="h-20 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </div>
           <p className="opacity-60 text-[16px] leading-relaxed font-['Hanken_Grotesk']">

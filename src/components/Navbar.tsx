@@ -36,7 +36,7 @@ export default function Navbar() {
           <img
             src="/logo.png"
             alt="PROSCIENTIFIC SOLUTIONS FZCO"
-            className="h-20 md:h-28 w-auto object-contain"
+            className="h-12 md:h-16 w-auto object-contain"
           />
         </Link>
 
@@ -65,7 +65,7 @@ export default function Navbar() {
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-medium transition-colors flex items-center gap-1 ${
+                      `font-['Geist'] text-[16px] leading-none tracking-[0.02em] font-medium transition-colors flex items-center gap-1 ${
                         isActive || catalogOpen
                           ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
                           : 'text-on-surface-variant hover:text-primary'
@@ -135,7 +135,7 @@ export default function Navbar() {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-medium transition-colors ${
+                  `font-['Geist'] text-[16px] leading-none tracking-[0.02em] font-medium transition-colors ${
                     isActive
                       ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
                       : 'text-on-surface-variant hover:text-primary'
@@ -152,7 +152,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center">
           <Link
             to="/contact"
-            className="bg-primary text-white px-6 py-2 font-['Geist'] text-[14px] leading-none tracking-[0.02em] font-semibold rounded-lg hover:bg-primary-container transition-all"
+            className="bg-primary text-white px-7 py-3 font-['Geist'] text-[15px] leading-none tracking-[0.02em] font-semibold rounded-lg hover:bg-primary-container transition-all"
           >
             Request Quote
           </Link>
