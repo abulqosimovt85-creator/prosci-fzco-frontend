@@ -7,7 +7,7 @@ export default function AboutPage() {
           <div className="max-w-3xl">
             <span className="font-['Geist'] text-[14px] font-medium text-secondary uppercase tracking-widest mb-4 block">Smart Science. Real Impact.</span>
             <h1 className="font-['Hanken_Grotesk'] text-[48px] leading-[1.1] tracking-[-0.02em] font-bold text-primary mb-6">Empowering Scientific Discovery through Seamless Logistics.</h1>
-            <p className="text-[18px] leading-relaxed text-on-surface-variant">ProScientific Solutions is a global leader in high-precision laboratory equipment and supply chain solutions, serving the world's most advanced research facilities with technical authority and uncompromising reliability.</p>
+            <p className="text-[18px] leading-relaxed text-on-surface-variant"><span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> is a global leader in high-precision laboratory equipment and supply chain solutions, serving the world's most advanced research facilities with technical authority and uncompromising reliability.</p>
           </div>
         </div>
       </section>
@@ -18,7 +18,7 @@ export default function AboutPage() {
           <div className="md:col-span-8 bg-white border border-outline-variant p-8 flex flex-col justify-between hover:shadow-lg transition-shadow">
             <div>
               <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-4">Our Mission</h2>
-              <p className="text-[16px] leading-relaxed text-on-surface-variant max-w-2xl">At ProScientific Solutions, we aim to bridge the gap between breakthrough research and logistical complexity. We provide the infrastructure, technical support, and precision instruments that enable scientists to focus on what matters most: solving the world's greatest challenges.</p>
+              <p className="text-[16px] leading-relaxed text-on-surface-variant max-w-2xl">At <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span>, we aim to bridge the gap between breakthrough research and logistical complexity. We provide the infrastructure, technical support, and precision instruments that enable scientists to focus on what matters most: solving the world's greatest challenges.</p>
             </div>
             <div className="mt-6 flex gap-12">
               <div>
@@ -39,7 +39,7 @@ export default function AboutPage() {
             <h3 className="font-['Hanken_Grotesk'] text-[20px] font-semibold mb-6">Our Values</h3>
             <ul className="space-y-6">
               {[
-                { icon: 'verified_user', title: 'Technical Integrity', desc: 'ProScientific Solutions ensures uncompromising accuracy in every technical spec we provide.' },
+                { icon: 'verified_user', title: 'Technical Integrity', desc: 'Uncompromising accuracy in every technical spec we provide.' },
                 { icon: 'speed', title: 'Operational Velocity', desc: 'Streamlined procurement paths to accelerate time-to-discovery.' },
                 { icon: 'hub', title: 'Reliable Connectivity', desc: 'A resilient global supply chain that scientists can trust.' },
               ].map((v) => (
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row items-center gap-12 p-12 border border-outline-variant bg-white">
             <div className="flex-1">
               <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-4">Certified for Excellence</h2>
-              <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">ProScientific Solutions maintains the highest standards of quality management and environmental responsibility. Our operations are audited annually to ensure absolute compliance with global scientific and industrial regulations.</p>
+              <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8"><span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> maintains the highest standards of quality management and environmental responsibility. Our operations are audited annually to ensure absolute compliance with global scientific and industrial regulations.</p>
               <div className="flex flex-wrap gap-8">
                 {['ISO 9001:2015', 'ISO 14001', 'OHSAS 18001'].map((cert) => (
                   <div key={cert} className="flex items-center gap-3">
@@ -142,7 +142,7 @@ export default function AboutPage() {
       <section className="py-12 text-center bg-white">
         <div className="max-w-3xl mx-auto px-5">
           <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-6">Ready to optimize your facility?</h2>
-          <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">Speak with our technical specialists at ProScientific Solutions to build a procurement strategy tailored to your lab's specific research goals.</p>
+          <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">Speak with our technical specialists at <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> to build a procurement strategy tailored to your lab's specific research goals.</p>
           <div className="flex flex-col md:flex-row justify-center gap-4">
             <a href="/contact" className="bg-primary text-white px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors text-center">Contact Sales</a>
             <button className="border border-primary text-primary px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-surface-container-low transition-colors">Download Capability Statement</button>

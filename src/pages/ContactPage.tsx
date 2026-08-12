@@ -33,7 +33,7 @@ export default function ContactPage() {
         <section className="mb-12">
           <h1 className="font-['Hanken_Grotesk'] text-[48px] leading-[1.1] tracking-[-0.02em] font-bold text-primary mb-4">Contact Our Specialists</h1>
           <p className="text-[18px] leading-relaxed text-on-surface-variant max-w-2xl">
-            Whether you're looking for precision instrumentation or require technical support for existing inventory, our team at PROSCIENTIFIC SOLUTIONS FZCO is ready to assist your laboratory's needs.
+            Whether you're looking for precision instrumentation or require technical support for existing inventory, our team at <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO is ready to assist your laboratory's needs.
           </p>
         </section>
 

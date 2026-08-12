@@ -33,7 +33,7 @@ const sectors = [
 const categories = [
   {
     title: 'Centrifugation Systems',
-    description: 'High-speed, refrigerated, and analytical centrifugation for molecular research by PROSCIENTIFIC.',
+    description: 'High-speed, refrigerated, and analytical centrifugation for molecular research by PROSCIENTIFIC SOLUTIONS.',
     linkText: 'BROWSE SYSTEMS',
     large: true,
   },
@@ -189,7 +189,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] tracking-[-0.01em] font-semibold text-primary mb-6">
-                Why Choose PROSCIENTIFIC SOLUTIONS FZCO?
+                Why Choose <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO?
               </h2>
               <div className="space-y-8">
                 {[
@@ -237,7 +237,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] tracking-[-0.01em] font-semibold mb-4">Sectors We Empower</h2>
             <p className="text-[18px] leading-relaxed opacity-70 max-w-2xl mx-auto font-['Hanken_Grotesk']">
-              Providing specialized procurement and technical solutions across diverse scientific verticals by PROSCIENTIFIC SOLUTIONS FZCO.
+              Providing specialized procurement and technical solutions across diverse scientific verticals by <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -269,7 +269,7 @@ export default function HomePage() {
               Streamline Your Procurement
             </h2>
             <p className="text-[18px] leading-relaxed text-white/70 max-w-2xl mb-12 relative z-10 font-['Hanken_Grotesk']">
-              Get personalized pricing, technical specifications, and delivery timelines within 12 hours from PROSCIENTIFIC SOLUTIONS FZCO.
+              Get personalized pricing, technical specifications, and delivery timelines within 12 hours from <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 relative z-10">
               <Link to="/contact" className="bg-secondary text-white px-12 py-5 font-['Hanken_Grotesk'] text-[20px] font-semibold hover:shadow-2xl hover:scale-105 transition-all text-center">
