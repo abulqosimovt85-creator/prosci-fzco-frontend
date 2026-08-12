@@ -1,27 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" fill="none">
-  <!-- Circle with PS -->
-  <circle cx="60" cy="60" r="55" stroke="#081c44" stroke-width="2.5" fill="none"/>
-  <text x="28" y="76" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="bold" fill="#081c44">P</text>
-  <text x="52" y="76" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="bold" fill="#153f78">S</text>
-  <circle cx="82" cy="30" r="5" fill="#153f78"/>
+  <!-- Hexagonal icon with cube -->
+  <g transform="translate(10, 15)">
+    <!-- Outer hexagon -->
+    <polygon points="50,0 95,25 95,75 50,100 5,75 5,25" stroke="#0066CC" stroke-width="2" fill="none"/>
+    <!-- Inner hexagon -->
+    <polygon points="50,15 80,32 80,68 50,85 20,68 20,32" stroke="#00AAEE" stroke-width="1.5" fill="none"/>
+    <!-- 3D cube -->
+    <polygon points="50,30 65,38 65,62 50,70 35,62 35,38" fill="#0088DD" opacity="0.3"/>
+    <polygon points="50,30 65,38 65,62 50,70" fill="#0066CC" opacity="0.5"/>
+    <polygon points="50,30 35,38 35,62 50,70" fill="#00AAEE" opacity="0.4"/>
+    <polygon points="35,38 50,30 65,38 50,46" fill="#0099EE" opacity="0.6"/>
+  </g>
 
-  <!-- Vertical separator -->
-  <line x1="130" y1="18" x2="130" y2="102" stroke="#081c44" stroke-width="1.5"/>
+  <!-- PROSCIENTIFIC text -->
+  <text x="130" y="50" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="bold" fill="#081c44" letter-spacing="2">PROSCIENTIFIC</text>
 
-  <!-- ProScient text -->
-  <text x="148" y="58" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="bold">
-    <tspan fill="#081c44">Pro</tspan><tspan fill="#153f78">Scient</tspan>
-  </text>
+  <!-- SOLUTIONS text -->
+  <text x="130" y="78" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="300" fill="#153f78" letter-spacing="6">SOLUTIONS</text>
 
-  <!-- Horizontal line under ProScient -->
-  <line x1="148" y1="66" x2="380" y2="66" stroke="#153f78" stroke-width="1.5"/>
-
-  <!-- Tagline -->
-  <text x="148" y="80" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#081c44">Smart Science. Real Impact.</text>
-
-  <!-- Company name -->
-  <text x="148" y="95" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="bold" letter-spacing="1.5" fill="#081c44">PROSCIENTIFIC SOLUTIONS - FZCO</text>
+  <!-- Horizontal line -->
+  <line x1="130" y1="88" x2="470" y2="88" stroke="#0066CC" stroke-width="1"/>
 
   <!-- Arabic text -->
-  <text x="380" y="112" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#081c44" text-anchor="end" xml:lang="ar">بروسينتيفك سولوشنز - ش.م.خ</text>
+  <text x="470" y="105" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#081c44" text-anchor="end" xml:lang="ar">بروسينتيفك سولوشنز - ش.م.خ</text>
+
+  <!-- Tagline -->
+  <text x="130" y="115" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#666" letter-spacing="3">SMART SCIENCE. REAL IMPACT.</text>
 </svg>
