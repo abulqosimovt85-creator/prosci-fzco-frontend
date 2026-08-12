@@ -175,8 +175,8 @@ export default function HomePage() {
         <div className="relative overflow-hidden whitespace-nowrap">
           <div className="scrolling-wrapper">
             {[...manufacturerLogos, ...manufacturerLogos].map((logo, i) => (
-              <div key={i} className="w-[250px] flex items-center justify-center px-8 opacity-70 hover:opacity-100 transition-all">
-                <img src={logo.logo} alt={logo.name} className="h-12 w-auto object-contain" />
+              <div key={i} className="w-[300px] flex items-center justify-center px-8 opacity-70 hover:opacity-100 transition-all">
+                <img src={logo.logo} alt={logo.name} className="h-20 w-auto object-contain" />
               </div>
             ))}
           </div>
