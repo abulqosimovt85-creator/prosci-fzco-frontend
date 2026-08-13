@@ -7,7 +7,8 @@ import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
-import RdPage from './pages/RdPage'
+import SolutionsPage from './pages/SolutionsPage'
+import ServicesPage from './pages/ServicesPage'
 import AdminPage from './pages/AdminPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 
@@ -85,8 +86,8 @@ function App() {
                 <Route path="/products/:id" element={<ProductDetailPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
-                <Route path="/solutions" element={<RdPage />} />
-                <Route path="/services" element={<RdPage />} />
+                <Route path="/solutions" element={<SolutionsPage />} />
+                <Route path="/services" element={<ServicesPage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </PublicLayout>

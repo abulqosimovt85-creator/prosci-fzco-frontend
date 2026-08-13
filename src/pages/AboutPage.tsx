@@ -26,7 +26,7 @@ export default function AboutPage() {
                 <div className="text-[14px] font-medium text-on-surface-variant uppercase">Global Partners</div>
               </div>
               <div>
-                <div className="text-[32px] leading-[1.2] font-bold text-primary">24/7</div>
+                <div className="text-[32px] leading-[1.2] font-bold text-primary">24h</div>
                 <div className="text-[14px] font-medium text-on-surface-variant uppercase">Technical Support</div>
               </div>
               <div>

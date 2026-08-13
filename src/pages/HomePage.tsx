@@ -195,7 +195,7 @@ export default function HomePage() {
                 {[
                   { icon: 'factory', title: 'Direct from Manufacturer', desc: 'We bypass unnecessary intermediaries to provide authentic equipment with full warranty coverage at optimized procurement costs.' },
                   { icon: 'verified_user', title: 'ISO Certified Operations', desc: 'Our logistical processes and quality management systems are ISO 9001:2015 certified for global reliability.' },
-                  { icon: 'support_agent', title: 'Lifetime Technical Support', desc: 'On-site installation, calibration services, and 24/7 technical assistance for every piece of hardware we sell.' },
+                  { icon: 'support_agent', title: 'Lifetime Technical Support', desc: 'On-site installation, calibration services, and dedicated technical assistance for every piece of hardware we sell.' },
                 ].map((item) => (
                   <div key={item.title} className="flex gap-6">
                     <div className="shrink-0 w-12 h-12 bg-secondary text-white flex items-center justify-center rounded-lg">

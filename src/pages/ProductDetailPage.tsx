@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
               </div>
               
               <p className="text-[10px] text-slate-400 text-center sm:text-left">
-                * ProScient provides full installation, calibration, and 24/7 technical support for this instrument.
+                * ProScient provides full installation, calibration, and dedicated technical support for this instrument.
               </p>
             </div>
           </div>
