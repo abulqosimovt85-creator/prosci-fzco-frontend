@@ -129,11 +129,26 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-          <div className="md:col-span-8 relative min-h-[400px]">
-            <div className="absolute inset-0 bg-primary-container rounded-xl overflow-hidden shadow-2xl">
-              <div className="w-full h-full opacity-30 mix-blend-overlay bg-slate-800"></div>
-              <div className="absolute top-[48%] left-[58%] w-4 h-4 bg-secondary-fixed rounded-full animate-pulse shadow-[0_0_15px_rgba(107,248,238,0.8)]"></div>
-            </div>
+          <div className="md:col-span-8 rounded-xl overflow-hidden shadow-2xl min-h-[400px] relative">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.0!2d55.3784!3d25.1084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6f9f1fbfb607%3A0x4db0a2f5f59532d9!2sIFZA%20Business%20Park%2C%20Building%20A1!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: '400px' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="ProScientific Solutions FZCO Location"
+            />
+            <a
+              href="https://www.google.com/maps?q=25.1084,55.3784&z=17&t=m"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute top-3 left-3 bg-white px-3 py-2 text-[13px] font-semibold text-primary shadow-md rounded-lg flex items-center gap-2 hover:bg-slate-50 transition-colors"
+            >
+              <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+              Open in Maps
+            </a>
           </div>
         </div>
       </section>
