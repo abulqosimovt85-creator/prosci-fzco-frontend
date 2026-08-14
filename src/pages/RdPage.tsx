@@ -10,13 +10,6 @@ const features = [
   { icon: 'verified_user', title: 'Global Compliance', desc: 'Every ProScientific solution is delivered with full validation documentation for ISO 9001 and ISO 17025 certification.' },
 ]
 
-const techData = [
-  { category: 'Mass Spectrometry Arrays', customization: 'Full Bespoke', lead: '12-16 Weeks', badge: 'bg-secondary-fixed/20 text-on-secondary-fixed-variant' },
-  { category: 'High-Throughput Incubators', customization: 'Modular Plugin', lead: '4-6 Weeks', badge: 'bg-primary-fixed text-on-primary-fixed' },
-  { category: 'Cryogenic Storage Integration', customization: 'Full Bespoke', lead: '8-10 Weeks', badge: 'bg-secondary-fixed/20 text-on-secondary-fixed-variant' },
-  { category: 'Genomic Sequencer Enclosures', customization: 'Modular Plugin', lead: '2-4 Weeks', badge: 'bg-primary-fixed text-on-primary-fixed' },
-]
-
 export default function RdPage() {
   return (
     <div className="bg-background">
@@ -101,66 +94,6 @@ export default function RdPage() {
             <div className="flex flex-col h-full justify-center text-center items-center gap-4">
               <h4 className="font-['Hanken_Grotesk'] text-[20px] font-semibold">ProSci Innovation Roadmap</h4>
               <button className="px-6 py-2 bg-white text-secondary rounded font-['Geist'] text-[14px] font-medium shadow-sm hover:bg-opacity-90">Download PDF</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Specs Table */}
-      <section className="bg-surface-container-low py-16">
-        <div className="px-5 md:px-16 max-w-[1280px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-1">
-              <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-6">Instrumentation Mastery</h2>
-              <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">We don't just supply equipment; we master the physics behind it. <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> is powered by Ph.D. level expertise.</p>
-              <div className="space-y-6">
-                <div className="p-4 bg-white rounded border border-outline-variant">
-                  <div className="flex justify-between items-end mb-2">
-                    <span className="font-['Geist'] text-[14px] font-bold text-primary">Precision Accuracy</span>
-                    <span className="font-['Geist'] text-[12px] font-semibold text-secondary">99.998%</span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
-                    <div className="bg-secondary h-full" style={{ width: '99%' }}></div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white rounded border border-outline-variant">
-                  <div className="flex justify-between items-end mb-2">
-                    <span className="font-['Geist'] text-[14px] font-bold text-primary">Workflow Optimization</span>
-                    <span className="font-['Geist'] text-[12px] font-semibold text-secondary">+42% Avg.</span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
-                    <div className="bg-primary h-full" style={{ width: '85%' }}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="lg:col-span-2">
-              <div className="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
-                <table className="w-full text-left">
-                  <thead className="bg-surface-container-highest border-b border-outline-variant">
-                    <tr>
-                      <th className="px-6 py-4 font-['Geist'] text-[14px] font-medium text-primary">Technology Category</th>
-                      <th className="px-6 py-4 font-['Geist'] text-[14px] font-medium text-primary">Customization</th>
-                      <th className="px-6 py-4 font-['Geist'] text-[14px] font-medium text-primary">Lead Time</th>
-                      <th className="px-6 py-4 font-['Geist'] text-[14px] font-medium text-primary text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-outline-variant/30">
-                    {techData.map((row, i) => (
-                      <tr key={row.category} className={`${i % 2 === 1 ? 'bg-surface-container-lowest' : ''} hover:bg-surface-bright transition-colors`}>
-                        <td className="px-6 py-4 font-['Geist'] text-[14px] font-medium text-primary">{row.category}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-1 ${row.badge} text-[10px] font-bold rounded uppercase`}>{row.customization}</span>
-                        </td>
-                        <td className="px-6 py-4 font-['Geist'] text-[14px] text-on-surface-variant">{row.lead}</td>
-                        <td className="px-6 py-4 text-right">
-                          <button className="text-secondary font-['Geist'] text-[12px] font-semibold hover:underline">Configurator</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
             </div>
           </div>
         </div>
