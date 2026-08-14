@@ -35,7 +35,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center shrink-0">
           <img
             src="/logo.png"
-            alt="PROSCIENTIFIC SOLUTIONS FZCO"
+            alt="PROSCIENTIFIC SOLUTIONS"
             className="h-12 md:h-16 w-auto object-contain"
           />
         </Link>

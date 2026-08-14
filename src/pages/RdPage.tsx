@@ -28,7 +28,7 @@ export default function RdPage() {
               <span className="font-['Geist'] text-[12px] font-semibold text-secondary-fixed tracking-widest uppercase">Smart Science. Real Impact.</span>
             </div>
             <h1 className="font-['Hanken_Grotesk'] text-[48px] leading-[1.1] tracking-[-0.02em] font-bold text-white">Precision Engineering for Scientific Breakthroughs.</h1>
-            <p className="text-[18px] leading-relaxed text-white/70 max-w-xl"><span className="font-bold text-white">PROSCIENTIFIC SOLUTIONS</span> FZCO partners with leading scientific institutions to engineer the future of laboratory environments with technical precision and modular infrastructure.</p>
+            <p className="text-[18px] leading-relaxed text-white/70 max-w-xl"><span className="font-bold text-white">PROSCIENTIFIC SOLUTIONS</span> partners with leading scientific institutions to engineer the future of laboratory environments with technical precision and modular infrastructure.</p>
             <div className="flex flex-wrap gap-4 pt-4">
               <Link to="/products" className="px-8 py-4 bg-secondary text-white font-['Hanken_Grotesk'] text-[20px] font-semibold rounded hover:opacity-95 transition-all">Explore Solutions</Link>
               <Link to="/contact" className="px-8 py-4 border border-white/30 text-white font-['Hanken_Grotesk'] text-[20px] font-semibold rounded hover:bg-white/10 transition-all">Technical Specs</Link>
@@ -112,7 +112,7 @@ export default function RdPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-1">
               <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-6">Instrumentation Mastery</h2>
-              <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">We don't just supply equipment; we master the physics behind it. <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO is powered by Ph.D. level expertise.</p>
+              <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">We don't just supply equipment; we master the physics behind it. <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> is powered by Ph.D. level expertise.</p>
               <div className="space-y-6">
                 <div className="p-4 bg-white rounded border border-outline-variant">
                   <div className="flex justify-between items-end mb-2">
@@ -171,7 +171,7 @@ export default function RdPage() {
         <div className="px-5 md:px-16 max-w-[1280px] mx-auto text-center">
           <h2 className="font-['Hanken_Grotesk'] text-[48px] leading-[1.1] tracking-[-0.02em] font-bold text-primary mb-8">Discuss Your Research Objectives</h2>
           <p className="text-[18px] leading-relaxed text-on-surface-variant max-w-3xl mx-auto mb-12">
-            Start your transformation with a technical audit. <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO provides deep-dive consultations for global R&D excellence.
+            Start your transformation with a technical audit. <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> provides deep-dive consultations for global R&D excellence.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/contact" className="px-8 py-4 bg-primary text-white font-['Hanken_Grotesk'] text-[20px] font-semibold rounded shadow-lg hover:opacity-90 transition-all text-center">Schedule Consultation</Link>

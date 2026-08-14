@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="mb-2">
             <img
               src="/logo-footer.png"
-              alt="PROSCIENTIFIC SOLUTIONS FZCO"
+              alt="PROSCIENTIFIC SOLUTIONS"
               className="h-16 w-auto object-contain"
             />
           </div>
@@ -53,7 +53,7 @@ export default function Footer() {
 
       <div className="mt-12 border-t border-white/5 pt-6 px-5 md:px-16 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="font-['Geist'] text-[12px] font-semibold opacity-60">
-          &copy; 2024 PROSCIENTIFIC SOLUTIONS FZCO. All rights reserved. ISO 9001:2015 Certified.
+          &copy; 2024 PROSCIENTIFIC SOLUTIONS. All rights reserved. ISO 9001:2015 Certified.
         </p>
       </div>
     </footer>

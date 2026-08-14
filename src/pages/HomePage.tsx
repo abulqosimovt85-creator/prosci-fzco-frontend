@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const manufacturerLogos = [
   { name: 'JASCO', logo: '/partners/jasco-logo@2x (1).png' },
@@ -58,6 +59,16 @@ const categories = [
 ]
 
 export default function HomePage() {
+  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -88,6 +99,21 @@ export default function HomePage() {
                 VIEW SOLUTIONS
               </Link>
             </div>
+            <form onSubmit={handleSearch} className="pt-6">
+              <div className="flex items-center border border-outline-variant bg-surface-container-low rounded-lg overflow-hidden max-w-xl shadow-sm">
+                <span className="material-symbols-outlined text-on-surface-variant px-4">search</span>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search instruments, equipment, brands..."
+                  className="flex-1 py-4 pr-4 text-[16px] bg-transparent outline-none text-primary placeholder-on-surface-variant"
+                />
+                <button type="submit" className="bg-primary text-white px-6 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors">
+                  Search
+                </button>
+              </div>
+            </form>
           </div>
           <div className="flex-1 relative w-full aspect-square lg:aspect-auto h-[500px]">
             <div className="absolute inset-0 bg-primary-fixed opacity-10 rounded-[120px] rotate-6 scale-110"></div>
@@ -189,7 +215,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] tracking-[-0.01em] font-semibold text-primary mb-6">
-                Why Choose <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO?
+                Why Choose <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span>?
               </h2>
               <div className="space-y-8">
                 {[
@@ -237,7 +263,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] tracking-[-0.01em] font-semibold mb-4">Sectors We Empower</h2>
             <p className="text-[18px] leading-relaxed opacity-70 max-w-2xl mx-auto font-['Hanken_Grotesk']">
-              Providing specialized procurement and technical solutions across diverse scientific verticals by <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO.
+              Providing specialized procurement and technical solutions across diverse scientific verticals by <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span>.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -269,7 +295,7 @@ export default function HomePage() {
               Streamline Your Procurement
             </h2>
             <p className="text-[18px] leading-relaxed text-white/70 max-w-2xl mb-12 relative z-10 font-['Hanken_Grotesk']">
-              Get personalized pricing, technical specifications, and delivery timelines within 12 hours from <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> FZCO.
+              Get personalized pricing, technical specifications, and delivery timelines within 12 hours from <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span>.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 relative z-10">
               <Link to="/contact" className="bg-secondary text-white px-12 py-5 font-['Hanken_Grotesk'] text-[20px] font-semibold hover:shadow-2xl hover:scale-105 transition-all text-center">

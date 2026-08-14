@@ -138,7 +138,7 @@ export default function AboutPage() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="ProScientific Solutions FZCO Location"
+              title="ProScientific Solutions Location"
             />
             <a
               href="https://www.google.com/maps?q=25.1084,55.3784&z=17&t=m"
