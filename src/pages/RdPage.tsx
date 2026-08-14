@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const capabilities = [
   { num: '01', label: 'Engineering Excellence', title: 'Custom Laboratory Automation', desc: "ProScientific's bespoke liquid handling and robotic solutions are designed to scale your throughput without compromising accuracy.", items: ['Seamless LIMS Integration', 'Scalable Modular Hardware'] },
-  { num: '02', label: 'Partnership', title: 'Strategic Research Alliances', desc: 'Join the ProScientific network of 200+ partner labs gaining early access to beta-stage instrumentation prototypes.', stat: 'Active Collaborations: 242', items: [] },
+  { num: '02', label: 'Partnership', title: 'Strategic Research Alliances', desc: 'Join the ProScientific network of 30+ partner labs gaining early access to beta-stage instrumentation prototypes.', stat: 'Active Collaborations: 28', items: [] },
 ]
 
 const features = [

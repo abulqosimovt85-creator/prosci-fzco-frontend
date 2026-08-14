@@ -326,11 +326,11 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-surface-container p-8 text-center flex flex-col items-center justify-center aspect-square border border-outline-variant">
-                <div className="text-[48px] leading-[1.1] font-bold text-primary mb-2">15k+</div>
+                <div className="text-[48px] leading-[1.1] font-bold text-primary mb-2">1k+</div>
                 <div className="font-['Geist'] text-[14px] font-medium text-on-surface-variant uppercase tracking-widest">Active Products</div>
               </div>
               <div className="bg-primary text-white p-8 text-center flex flex-col items-center justify-center aspect-square">
-                <div className="text-[48px] leading-[1.1] font-bold mb-2">50+</div>
+                <div className="text-[48px] leading-[1.1] font-bold mb-2">10+</div>
                 <div className="font-['Geist'] text-[14px] font-medium opacity-70 uppercase tracking-widest">Countries Served</div>
               </div>
               <div className="bg-secondary text-white p-8 text-center flex flex-col items-center justify-center aspect-square">

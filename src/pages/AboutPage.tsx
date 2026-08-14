@@ -22,7 +22,7 @@ export default function AboutPage() {
             </div>
             <div className="mt-6 flex gap-12">
               <div>
-                <div className="text-[32px] leading-[1.2] font-bold text-primary">150+</div>
+                <div className="text-[32px] leading-[1.2] font-bold text-primary">50+</div>
                 <div className="text-[14px] font-medium text-on-surface-variant uppercase">Global Partners</div>
               </div>
               <div>
@@ -30,7 +30,7 @@ export default function AboutPage() {
                 <div className="text-[14px] font-medium text-on-surface-variant uppercase">Technical Support</div>
               </div>
               <div>
-                <div className="text-[32px] leading-[1.2] font-bold text-primary">12k</div>
+                <div className="text-[32px] leading-[1.2] font-bold text-primary">1k+</div>
                 <div className="text-[14px] font-medium text-on-surface-variant uppercase">Products Cataloged</div>
               </div>
             </div>
