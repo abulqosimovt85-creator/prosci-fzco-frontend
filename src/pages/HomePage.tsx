@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { fetchProducts } from '../services/siteApi'
+import type { Product } from '../types'
 
 const manufacturerLogos = [
   { name: 'JASCO', logo: '/partners/jasco-logo@2x (1).png' },
@@ -61,12 +63,57 @@ const categories = [
 export default function HomePage() {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
+  const [suggestions, setSuggestions] = useState<Product[]>([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const fetchSuggestions = useCallback(async (query: string) => {
+    if (query.trim().length < 2) {
+      setSuggestions([])
+      return
+    }
+    setLoadingSuggestions(true)
+    try {
+      const results = await fetchProducts(query.trim())
+      setSuggestions(results.slice(0, 8))
+      setShowSuggestions(true)
+    } catch {
+      setSuggestions([])
+    } finally {
+      setLoadingSuggestions(false)
+    }
+  }, [])
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => fetchSuggestions(value), 300)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    setShowSuggestions(false)
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`)
     }
+  }
+
+  const selectSuggestion = (product: Product) => {
+    setShowSuggestions(false)
+    setSearchQuery('')
+    navigate(`/products/${product.id}`)
   }
 
   return (
@@ -99,21 +146,63 @@ export default function HomePage() {
                 VIEW SOLUTIONS
               </Link>
             </div>
-            <form onSubmit={handleSearch} className="pt-6">
-              <div className="flex items-center border border-outline-variant bg-surface-container-low rounded-lg overflow-hidden max-w-xl shadow-sm">
-                <span className="material-symbols-outlined text-on-surface-variant px-4">search</span>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search instruments, equipment, brands..."
-                  className="flex-1 py-4 pr-4 text-[16px] bg-transparent outline-none text-primary placeholder-on-surface-variant"
-                />
-                <button type="submit" className="bg-primary text-white px-6 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors">
-                  Search
-                </button>
-              </div>
-            </form>
+            <div ref={searchRef} className="pt-6 relative">
+              <form onSubmit={handleSearch}>
+                <div className="flex items-center border border-outline-variant bg-surface-container-low rounded-lg overflow-hidden max-w-xl shadow-sm">
+                  <span className="material-symbols-outlined text-on-surface-variant px-4">search</span>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                    placeholder="Search instruments, equipment, brands..."
+                    className="flex-1 py-4 pr-4 text-[16px] bg-transparent outline-none text-primary placeholder-on-surface-variant"
+                    autoComplete="off"
+                  />
+                  <button type="submit" className="bg-primary text-white px-6 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors">
+                    Search
+                  </button>
+                </div>
+              </form>
+              {showSuggestions && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-outline-variant shadow-xl rounded-lg overflow-hidden z-50 max-h-[420px] overflow-y-auto max-w-xl">
+                  {loadingSuggestions ? (
+                    <div className="px-4 py-6 text-center text-on-surface-variant text-[14px]">Searching...</div>
+                  ) : suggestions.length > 0 ? (
+                    <>
+                      {suggestions.map((product) => (
+                        <button
+                          key={product.id}
+                          onClick={() => selectSuggestion(product)}
+                          className="w-full flex items-center gap-4 px-4 py-3 hover:bg-surface-container-low transition-colors text-left border-b border-outline-variant last:border-0"
+                        >
+                          <div className="shrink-0 w-12 h-12 bg-surface-container-low flex items-center justify-center rounded overflow-hidden">
+                            {product.images?.[0] ? (
+                              <img src={product.images[0]} alt="" className="w-full h-full object-contain p-1" />
+                            ) : (
+                              <span className="material-symbols-outlined text-outline text-[20px]">science</span>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[14px] font-semibold text-primary truncate">{product.name}</p>
+                            <p className="text-[12px] text-on-surface-variant truncate">{product.brand} · {product.category}</p>
+                          </div>
+                          <span className="material-symbols-outlined text-outline text-[16px]">arrow_forward</span>
+                        </button>
+                      ))}
+                      <button
+                        onClick={handleSearch}
+                        className="w-full px-4 py-3 text-center text-secondary font-['Geist'] text-[14px] font-bold hover:bg-surface-container-low transition-colors border-t border-outline-variant"
+                      >
+                        View all results for "{searchQuery}"
+                      </button>
+                    </>
+                  ) : (
+                    <div className="px-4 py-6 text-center text-on-surface-variant text-[14px]">No products found. Try a different search.</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex-1 relative w-full aspect-square lg:aspect-auto h-[500px]">
             <div className="absolute inset-0 bg-primary-fixed opacity-10 rounded-[120px] rotate-6 scale-110"></div>
