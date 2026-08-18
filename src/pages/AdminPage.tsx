@@ -211,34 +211,35 @@ export default function AdminPage() {
 
   // AI Generation hook
   const handleAIGeneration = async () => {
-    if (!prodFormName.trim()) {
-      alert('Please provide a Product Name first to give the AI context.')
+    if (!prodFormAiContext.trim()) {
+      alert('Please provide a URL, product name, or technical text for the AI to extract details from.')
       return
     }
     setIsGeneratingAI(true)
     setAiFeedback('Connecting to AI Product Architect...')
     try {
-      const generated = await generateProductAI(prodFormName, prodFormCategory || 'Lab Equipment', prodFormAiContext)
+      const generated = await generateProductAI(prodFormName || prodFormAiContext.split('\n')[0].slice(0, 80), prodFormCategory || 'Lab Equipment', prodFormAiContext)
       
       if (generated.name) setProdFormName(generated.name)
+      if (generated.category) setProdFormCategory(generated.category)
+      if (generated.brand) setProdFormBrand(generated.brand)
       if (generated.description) setProdFormDescription(generated.description)
       if (generated.application) setProdFormApplication(generated.application)
       if (generated.specs) {
         const specList = Object.entries(generated.specs).map(([k, v]) => ({ key: k, value: v }))
         setProdFormSpecs(specList.length > 0 ? specList : [{ key: '', value: '' }])
       }
-      setAiFeedback('Success! Technical details generated.')
+      setAiFeedback('Success! All product details extracted.')
       setTimeout(() => setAiFeedback(null), 3000)
     } catch (err) {
       setAiFeedback('AI model is offline. Used scientific templates instead.')
-      // Dynamic local templates as robust backup
       const demoSpecs: Record<string, string> = {
         'Operating range': '0 - 100% capacity',
         'Accuracy rating': '±0.05% full scale',
         'Standard interface': 'USB / RS-232 serial',
         'Certification': 'CE / ISO 9001 compliance'
       }
-      setProdFormDescription(`A premium, high-precision ${prodFormName} engineered for clinical laboratories and analytical chemistry applications requiring micro-trace accuracy.`)
+      setProdFormDescription(`A premium, high-precision instrument engineered for clinical laboratories and analytical chemistry applications requiring micro-trace accuracy.`)
       setProdFormApplication(`Optimized for high-throughput testing, sample preparations, and strict biological asset isolation.`)
       setProdFormSpecs(Object.entries(demoSpecs).map(([k, v]) => ({ key: k, value: v })))
       setTimeout(() => setAiFeedback(null), 3000)
@@ -1010,7 +1011,7 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <h4 className="text-xs font-bold text-brand-700 uppercase tracking-wider">AI Product Architect</h4>
-                      <p className="text-[10px] text-slate-500">Provide a URL or technical text for accurate extraction.</p>
+                      <p className="text-[10px] text-slate-500">Paste a URL or product text — AI auto-fills name, category, brand & specs.</p>
                     </div>
                     <button
                       type="button"
@@ -1023,7 +1024,7 @@ export default function AdminPage() {
                   </div>
                   <textarea
                     rows={2}
-                    placeholder="Paste technical details, brochure text, or a product URL here..."
+                    placeholder="Paste a product URL, brochure text, or technical specifications..."
                     value={prodFormAiContext}
                     onChange={(e) => setProdFormAiContext(e.target.value)}
                     className="block w-full px-3 py-2 border border-slate-200 rounded-lg bg-white text-slate-900 text-[11px] placeholder:text-slate-400 focus:ring-1 focus:ring-brand-500 outline-none transition-all"

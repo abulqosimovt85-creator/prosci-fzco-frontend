@@ -36,7 +36,7 @@ export default function Navbar() {
           <img
             src="/logo.png"
             alt="PROSCIENTIFIC SOLUTIONS"
-            className="h-12 md:h-16 w-auto object-contain"
+            className="h-14 md:h-20 w-auto object-contain"
           />
         </Link>
 
