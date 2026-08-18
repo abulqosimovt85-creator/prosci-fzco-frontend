@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { fetchProductById, submitInquiry } from '../services/siteApi'
+import { fetchProductById, fetchProducts, submitInquiry } from '../services/siteApi'
 import type { Product } from '../types'
 import SectionHeading from '../components/SectionHeading'
 
@@ -17,6 +17,7 @@ export default function ProductDetailPage() {
   const [inquiryLoading, setInquiryLoading] = useState(false)
   const [inquirySubmitted, setInquirySubmitted] = useState(false)
   const [inquiryError, setInquiryError] = useState(false)
+  const [recommended, setRecommended] = useState<Product[]>([])
 
   useEffect(() => {
     if (!id) return
@@ -26,6 +27,11 @@ export default function ProductDetailPage() {
         if (res.images && res.images.length > 0) {
           setActiveImage(res.images[0])
         }
+        fetchProducts('', '', '').then(all => {
+          const others = all.filter(p => p.id !== res.id)
+          const shuffled = others.sort(() => Math.random() - 0.5)
+          setRecommended(shuffled.slice(0, 4))
+        })
       }
     })
   }, [id])
@@ -219,6 +225,29 @@ export default function ProductDetailPage() {
           </aside>
         </div>
       </section>
+
+      {/* Recommended Products */}
+      {recommended.length > 0 && (
+        <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-12">
+          <SectionHeading eyebrow="Related" title="Recommended Products" />
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recommended.map((p) => (
+              <Link key={p.id} to={`/products/${p.id}`} className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+                <div className="aspect-square bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center mb-4">
+                  {p.images?.[0] ? (
+                    <img src={p.images[0]} alt={p.name} className="w-full h-full object-contain p-4" />
+                  ) : (
+                    <span className="material-symbols-outlined text-[48px] text-slate-300">science</span>
+                  )}
+                </div>
+                <span className="text-[10px] font-bold text-brand-700 uppercase tracking-widest mb-1">{p.brand}</span>
+                <h3 className="text-sm font-semibold text-slate-900 line-clamp-2 mb-2">{p.name}</h3>
+                <p className="text-xs text-slate-500 line-clamp-2 mt-auto">{p.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Lightbox Modal */}
       <AnimatePresence>
