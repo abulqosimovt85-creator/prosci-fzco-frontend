@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { fetchProducts, fetchCategories, fetchBrands } from '../services/siteApi'
 import type { Product, Category, Brand } from '../types'
 
@@ -55,6 +56,10 @@ export default function ProductsPage() {
 
   return (
     <div className="bg-background min-h-screen">
+      <Helmet>
+        <title>Product Catalog — ProScientific Solutions</title>
+        <meta name="description" content="Browse our catalog of precision laboratory instruments, analytical equipment, and scientific supplies from leading global manufacturers." />
+      </Helmet>
       <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-12">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar Filters */}

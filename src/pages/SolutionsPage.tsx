@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 export default function SolutionsPage() {
   return (
     <div className="bg-background">
+      <Helmet>
+        <title>Laboratory Solutions — ProScientific Solutions</title>
+        <meta name="description" content="Turnkey laboratory systems, analytical instrumentation, automation, and engineering services for science, industry, and research." />
+      </Helmet>
       {/* Hero */}
       <section className="relative py-12 bg-white overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 relative z-10">

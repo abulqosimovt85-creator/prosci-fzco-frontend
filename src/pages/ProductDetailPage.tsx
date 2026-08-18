@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { fetchProductById, submitInquiry } from '../services/siteApi'
 import type { Product } from '../types'
 import SectionHeading from '../components/SectionHeading'
@@ -42,6 +43,10 @@ export default function ProductDetailPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen">
+      <Helmet>
+        <title>{product.name} — ProScientific Solutions</title>
+        <meta name="description" content={product.description?.slice(0, 160) || `${product.name} from ${product.brand} — available at ProScientific Solutions.`} />
+      </Helmet>
       {/* Product Header / Hero Area */}
       <section className="bg-white border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-6 py-12 sm:px-8 lg:px-12">

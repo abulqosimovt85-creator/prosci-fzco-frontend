@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { submitInquiry } from '../services/siteApi'
 
 export default function ContactPage() {
@@ -30,6 +31,10 @@ export default function ContactPage() {
 
   return (
     <div className="bg-background">
+      <Helmet>
+        <title>Contact Us — ProScientific Solutions</title>
+        <meta name="description" content="Contact ProScientific Solutions for laboratory equipment inquiries, technical support, and scientific consulting services in Dubai, UAE." />
+      </Helmet>
       <main className="max-w-[1280px] mx-auto px-5 md:px-16 py-12">
         {/* Hero */}
         <section className="mb-12">

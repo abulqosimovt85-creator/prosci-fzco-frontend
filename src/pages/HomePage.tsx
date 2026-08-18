@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { fetchProducts } from '../services/siteApi'
 import type { Product } from '../types'
 
@@ -118,6 +119,12 @@ export default function HomePage() {
 
   return (
     <div className="bg-background">
+      <Helmet>
+        <title>ProScientific Solutions — Precision Lab Equipment & Scientific Services</title>
+        <meta name="description" content="ProScientific Solutions provides precision laboratory equipment, analytical instruments, and scientific services to enterprises across Dubai and the UAE." />
+        <meta property="og:title" content="ProScientific Solutions — Precision Lab Equipment" />
+        <meta property="og:description" content="Precision laboratory equipment, analytical instruments, and scientific services for research, pharma, and industry." />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative bg-white overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-12 lg:py-32 flex flex-col lg:flex-row items-center gap-16">

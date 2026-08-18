@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { services } from '../data/content'
 import { submitInquiry } from '../services/siteApi'
 
@@ -27,6 +28,10 @@ export default function ServicesPage() {
 
   return (
     <div className="bg-background">
+      <Helmet>
+        <title>Technical Support & Services — ProScientific Solutions</title>
+        <meta name="description" content="Installation, calibration, preventive maintenance, training, and technical support for laboratory instruments in Dubai and the UAE." />
+      </Helmet>
       {/* Hero */}
       <section className="relative py-12 bg-white overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 relative z-10">
