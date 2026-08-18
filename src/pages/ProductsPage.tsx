@@ -185,7 +185,7 @@ export default function ProductsPage() {
                   <div key={product.id} className="bg-white border border-outline-variant rounded p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                     <Link to={`/products/${product.id}`} className="relative w-full aspect-square bg-surface-container-low mb-4 overflow-hidden flex items-center justify-center">
                       {product.images?.[0] ? (
-                        <img className="w-full h-full object-contain p-6 mix-blend-multiply" alt={product.name} src={product.images[0]} />
+                        <img className="w-full h-full object-contain p-6 mix-blend-multiply" alt={product.name} src={product.images[0]} loading="lazy" />
                       ) : (
                         <span className="material-symbols-outlined text-[64px] text-outline">science</span>
                       )}

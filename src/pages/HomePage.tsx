@@ -249,7 +249,7 @@ export default function HomePage() {
                   {categories[0].linkText} <span className="material-symbols-outlined">east</span>
                 </Link>
               </div>
-              <img className="absolute right-0 bottom-0 w-1/2 h-full object-contain opacity-20 group-hover:opacity-100 transition-opacity translate-x-12 translate-y-12" alt="Centrifuge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcPwz7MVlLmIr2mjbO0YGI_1XOPhvAQD95qBAxV0KVR5_3jjRu5tBCaTXwHWp6d-8fRH5lKtTNsd4Ek_29qnsgvI8kEp4b5gb1yMDOZEwBOjL6dGvMcQOSNh0dvrz8-6qhHh0BEM8bGDr4GqN2kR5xki3WGXNJuKwbmmhNcTyLWbL8fcSUuXgDNsXO0gNXxCPvv-j5iEN741-9khLLZr-osABncDIwy-dnOPVFeg9al5gmXTcGBWH3" />
+              <img className="absolute right-0 bottom-0 w-1/2 h-full object-contain opacity-20 group-hover:opacity-100 transition-opacity translate-x-12 translate-y-12" alt="Centrifuge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcPwz7MVlLmIr2mjbO0YGI_1XOPhvAQD95qBAxV0KVR5_3jjRu5tBCaTXwHWp6d-8fRH5lKtTNsd4Ek_29qnsgvI8kEp4b5gb1yMDOZEwBOjL6dGvMcQOSNh0dvrz8-6qhHh0BEM8bGDr4GqN2kR5xki3WGXNJuKwbmmhNcTyLWbL8fcSUuXgDNsXO0gNXxCPvv-j5iEN741-9khLLZr-osABncDIwy-dnOPVFeg9al5gmXTcGBWH3" loading="lazy" />
             </div>
 
             {/* Small Card 1 */}
@@ -298,7 +298,7 @@ export default function HomePage() {
           <div className="scrolling-wrapper">
             {[...manufacturerLogos, ...manufacturerLogos].map((logo, i) => (
               <div key={i} className="w-[300px] flex items-center justify-center px-8 opacity-70 hover:opacity-100 transition-all">
-                <img src={logo.logo} alt={logo.name} className="h-20 w-auto object-contain" />
+                <img src={logo.logo} alt={logo.name} className="h-20 w-auto object-contain" loading="lazy" />
               </div>
             ))}
           </div>

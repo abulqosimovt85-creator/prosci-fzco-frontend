@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { fetchProductById, fetchProducts, submitInquiry } from '../services/siteApi'
 import type { Product } from '../types'
-import SectionHeading from '../components/SectionHeading'
 
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -39,8 +38,8 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <section className="mx-auto max-w-4xl px-6 py-24 text-center sm:px-8 lg:px-12">
-        <p className="text-2xl font-semibold text-slate-900">Instrument not found in database</p>
-        <Link to="/products" className="mt-6 inline-flex rounded-full bg-brand-700 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-800">
+        <p className="font-['Hanken_Grotesk'] text-[24px] font-semibold text-primary">Instrument not found in database</p>
+        <Link to="/products" className="mt-6 inline-block bg-primary text-white px-8 py-3 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors">
           Return to Catalog
         </Link>
       </section>
@@ -48,45 +47,44 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-background min-h-screen">
       <Helmet>
         <title>{product.name} — ProScientific Solutions</title>
         <meta name="description" content={product.description?.slice(0, 160) || `${product.name} from ${product.brand} — available at ProScientific Solutions.`} />
       </Helmet>
+
       {/* Product Header / Hero Area */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-6 py-12 sm:px-8 lg:px-12">
-          <nav className="flex mb-8 text-xs font-medium text-slate-400 uppercase tracking-widest">
-            <Link to="/products" className="hover:text-brand-700">Catalog</Link>
+      <section className="bg-white border-b border-outline-variant">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-12">
+          <nav className="flex mb-8 text-[12px] font-medium text-outline uppercase tracking-widest">
+            <Link to="/products" className="hover:text-secondary">Catalog</Link>
             <span className="mx-3">/</span>
-            <span className="text-slate-600">{product.category}</span>
+            <span className="text-on-surface-variant">{product.category}</span>
           </nav>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Left: Gallery */}
             <div className="space-y-4">
-              <div 
-                className="aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-slate-200 bg-white shadow-sm flex items-center justify-center cursor-pointer hover:shadow-md transition"
+              <div
+                className="aspect-[4/3] overflow-hidden border border-outline-variant bg-surface-container-low flex items-center justify-center cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => activeImage && setLightboxOpen(true)}
               >
                 {activeImage ? (
                   <img src={activeImage} alt={product.name} className="h-full w-full object-contain p-6" />
                 ) : (
-                  <div className="h-full w-full flex items-center justify-center text-slate-300">
-                    <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                  <div className="h-full w-full flex items-center justify-center text-outline">
+                    <span className="material-symbols-outlined text-[80px]">image</span>
                   </div>
                 )}
               </div>
-              
+
               {product.images && product.images.length > 1 && (
-                <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+                <div className="flex gap-3 overflow-x-auto pb-2">
                   {product.images.map((img, idx) => (
-                    <button 
+                    <button
                       key={idx}
                       onClick={() => setActiveImage(img)}
-                      className={`h-20 w-20 shrink-0 rounded-2xl overflow-hidden border-2 transition-all ${activeImage === img ? 'border-brand-700 scale-95' : 'border-slate-100 opacity-60 hover:opacity-100'}`}
+                      className={`h-20 w-20 shrink-0 overflow-hidden border-2 transition-all ${activeImage === img ? 'border-secondary scale-95' : 'border-outline-variant opacity-60 hover:opacity-100'}`}
                     >
                       <img src={img} alt="" className="h-full w-full object-cover" />
                     </button>
@@ -98,41 +96,44 @@ export default function ProductDetailPage() {
             {/* Right: Quick Info */}
             <div className="space-y-8">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-[10px] font-bold uppercase tracking-widest mb-4">
+                <span className="inline-block px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-4">
                   Professional Grade
                 </span>
-                <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                <h1 className="font-['Hanken_Grotesk'] text-[40px] leading-[1.1] tracking-[-0.02em] font-bold text-primary">
                   {product.name}
                 </h1>
                 <div className="mt-4 flex items-center gap-4">
-                  <div className="h-8 w-px bg-slate-200" />
-                  <p className="text-lg text-slate-500 font-medium">Manufacturer: <span className="text-slate-900">{product.brand}</span></p>
+                  <div className="h-8 w-px bg-outline-variant" />
+                  <p className="text-[16px] text-on-surface-variant font-medium">Manufacturer: <span className="text-primary font-semibold">{product.brand}</span></p>
                 </div>
               </div>
 
-              <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Primary Application</h3>
-                <p className="text-slate-700 font-medium leading-relaxed italic">
+              <div className="bg-surface-container-low p-6 border border-outline-variant">
+                <h3 className="font-['Geist'] text-[12px] font-bold text-outline uppercase tracking-widest mb-3">Primary Application</h3>
+                <p className="text-[15px] text-on-surface-variant font-medium leading-relaxed italic">
                   "{product.application}"
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={() => { setInquiryOpen(true); setInquirySubmitted(false);                       setInquiryForm({ name: '', company: '', email: '', phone: '', message: '' }) }} className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-700 px-8 py-4 text-sm font-bold text-white hover:bg-brand-800 shadow-lg shadow-brand-200 transition-all active:scale-[0.98] border-2 border-brand-700 cursor-pointer">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
+                <button onClick={() => { setInquiryOpen(true); setInquirySubmitted(false); setInquiryForm({ name: '', company: '', email: '', phone: '', message: '' }) }} className="flex-1 inline-flex items-center justify-center gap-2 bg-primary px-8 py-4 font-['Geist'] text-[14px] font-bold text-white hover:bg-primary-container transition-all active:scale-[0.98] cursor-pointer">
+                  <span className="material-symbols-outlined text-[20px]">mail</span>
                   Request Technical Quote
                 </button>
-                <a href={product.pdf && product.pdf !== '#' ? product.pdf : '#'} target="_blank" rel="noreferrer" className={`inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-8 py-4 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all ${!product.pdf || product.pdf === '#' ? 'opacity-50 pointer-events-none' : ''}`}>
-                  <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Documentation (PDF)
-                </a>
+                {product.pdf && product.pdf !== '#' ? (
+                  <a href={product.pdf} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 border border-outline bg-white px-8 py-4 font-['Geist'] text-[14px] font-bold text-primary hover:bg-surface-container-low transition-all">
+                    <span className="material-symbols-outlined text-[20px] text-outline">download</span>
+                    Documentation (PDF)
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center justify-center gap-2 border border-outline bg-white px-8 py-4 font-['Geist'] text-[14px] font-bold text-outline opacity-50">
+                    <span className="material-symbols-outlined text-[20px]">download</span>
+                    Documentation (PDF)
+                  </span>
+                )}
               </div>
-              
-              <p className="text-[10px] text-slate-400 text-center sm:text-left">
+
+              <p className="text-[10px] text-outline text-center sm:text-left">
                 * ProScient provides full installation, calibration, and dedicated technical support for this instrument.
               </p>
             </div>
@@ -141,48 +142,41 @@ export default function ProductDetailPage() {
       </section>
 
       {/* Product Details Section */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-12">
+      <section className="max-w-[1280px] mx-auto px-5 md:px-16 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          
+
           {/* Main Content: Overview & Description */}
           <div className="lg:col-span-2 space-y-12">
             <div>
-              <SectionHeading eyebrow="Overview" title="Technical Excellence" />
-              <div className="mt-6 prose prose-slate max-w-none">
-                <p className="text-lg leading-8 text-slate-600">
-                  {product.description}
-                </p>
-              </div>
+              <span className="font-['Geist'] text-[12px] font-bold text-secondary uppercase tracking-widest mb-2 block">Overview</span>
+              <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-4">Technical Excellence</h2>
+              <p className="text-[16px] leading-relaxed text-on-surface-variant">{product.description}</p>
             </div>
 
             {/* Service & Quality Standards */}
-            <div className="border-t border-slate-200 pt-8 mt-12">
-              <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-brand-700 mb-6">
+            <div className="border-t border-outline-variant pt-8 mt-12">
+              <h4 className="font-['Geist'] text-[12px] font-bold uppercase tracking-[0.25em] text-secondary mb-6">
                 Standard Support & Assurances
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex gap-4">
-                  <div className="h-10 w-10 shrink-0 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="shrink-0 w-12 h-12 bg-secondary text-white flex items-center justify-center rounded-lg">
+                    <span className="material-symbols-outlined">verified</span>
                   </div>
                   <div>
-                    <h5 className="font-semibold text-slate-900 text-sm">Quality Certified</h5>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <h5 className="font-['Hanken_Grotesk'] text-[16px] font-semibold text-primary">Quality Certified</h5>
+                    <p className="text-[14px] text-on-surface-variant mt-1 leading-relaxed">
                       Tested and verified for mission-critical scientific and laboratory environments.
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="h-10 w-10 shrink-0 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+                  <div className="shrink-0 w-12 h-12 bg-secondary text-white flex items-center justify-center rounded-lg">
+                    <span className="material-symbols-outlined">speed</span>
                   </div>
                   <div>
-                    <h5 className="font-semibold text-slate-900 text-sm">Rapid Response SLA</h5>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <h5 className="font-['Hanken_Grotesk'] text-[16px] font-semibold text-primary">Rapid Response SLA</h5>
+                    <p className="text-[14px] text-on-surface-variant mt-1 leading-relaxed">
                       Priority technical support and spare parts availability guaranteed.
                     </p>
                   </div>
@@ -193,32 +187,30 @@ export default function ProductDetailPage() {
 
           {/* Sidebar: Full Specs Table */}
           <aside className="space-y-6">
-            <div className="rounded-[2.5rem] border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/50">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <svg className="w-5 h-5 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
+            <div className="bg-white border border-outline-variant p-8">
+              <h3 className="font-['Hanken_Grotesk'] text-[20px] font-semibold text-primary mb-6 flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary">bar_chart</span>
                 Technical Specifications
               </h3>
-              <div className="specs-scroll" style={{ maxHeight: '28rem', overflowY: 'auto', paddingRight: '0.5rem' }}>
+              <div className="space-y-4" style={{ maxHeight: '28rem', overflowY: 'auto' }}>
                 {Object.entries(product.specs).map(([key, value]) => (
-                  <div key={key} className="pb-4 border-b border-slate-100 last:border-0">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{key}</p>
-                    <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
+                  <div key={key} className="pb-4 border-b border-outline-variant last:border-0">
+                    <p className="font-['Geist'] text-[10px] font-bold text-outline uppercase tracking-widest">{key}</p>
+                    <p className="mt-1 text-[14px] font-semibold text-primary">{value}</p>
                   </div>
                 ))}
               </div>
               {Object.keys(product.specs).length > 6 && (
-                <div className="mt-4 pt-3 border-t border-slate-100 text-center">
-                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Scroll for more specs</p>
+                <div className="mt-4 pt-3 border-t border-outline-variant text-center">
+                  <p className="font-['Geist'] text-[10px] text-outline font-medium uppercase tracking-widest">Scroll for more specs</p>
                 </div>
               )}
             </div>
-            
-            <div className="rounded-3xl bg-brand-900 p-8 text-white">
-              <h4 className="font-bold text-lg mb-2">Need Customization?</h4>
-              <p className="text-sm text-brand-200 mb-6">Our engineers can tailor this instrument to your specific research protocols.</p>
-              <Link to="/contact" className="block text-center py-3 bg-white text-brand-900 rounded-xl font-bold text-sm hover:bg-brand-50 transition-all">
+
+            <div className="bg-primary p-8 text-white">
+              <h4 className="font-['Hanken_Grotesk'] text-[20px] font-semibold mb-2">Need Customization?</h4>
+              <p className="text-[14px] opacity-80 mb-6">Our engineers can tailor this instrument to your specific research protocols.</p>
+              <Link to="/contact" className="block text-center py-3 bg-white text-primary font-['Geist'] text-[14px] font-bold hover:bg-surface-container-low transition-all">
                 Speak to an Expert
               </Link>
             </div>
@@ -228,21 +220,22 @@ export default function ProductDetailPage() {
 
       {/* Recommended Products */}
       {recommended.length > 0 && (
-        <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-12">
-          <SectionHeading eyebrow="Related" title="Recommended Products" />
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="max-w-[1280px] mx-auto px-5 md:px-16 py-16">
+          <span className="font-['Geist'] text-[12px] font-bold text-secondary uppercase tracking-widest mb-2 block">Related</span>
+          <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-8">Recommended Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {recommended.map((p) => (
-              <Link key={p.id} to={`/products/${p.id}`} className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-                <div className="aspect-square bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center mb-4">
+              <Link key={p.id} to={`/products/${p.id}`} className="bg-white border border-outline-variant p-4 flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+                <div className="aspect-square bg-surface-container-low overflow-hidden flex items-center justify-center mb-4">
                   {p.images?.[0] ? (
-                    <img src={p.images[0]} alt={p.name} className="w-full h-full object-contain p-4" />
+                    <img src={p.images[0]} alt={p.name} className="w-full h-full object-contain p-4" loading="lazy" />
                   ) : (
-                    <span className="material-symbols-outlined text-[48px] text-slate-300">science</span>
+                    <span className="material-symbols-outlined text-[48px] text-outline">science</span>
                   )}
                 </div>
-                <span className="text-[10px] font-bold text-brand-700 uppercase tracking-widest mb-1">{p.brand}</span>
-                <h3 className="text-sm font-semibold text-slate-900 line-clamp-2 mb-2">{p.name}</h3>
-                <p className="text-xs text-slate-500 line-clamp-2 mt-auto">{p.description}</p>
+                <span className="font-['Geist'] text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">{p.brand}</span>
+                <h3 className="font-['Hanken_Grotesk'] text-[16px] font-semibold text-primary line-clamp-2 mb-2">{p.name}</h3>
+                <p className="text-[13px] text-on-surface-variant line-clamp-2 mt-auto">{p.description}</p>
               </Link>
             ))}
           </div>
@@ -263,9 +256,7 @@ export default function ProductDetailPage() {
               onClick={() => setLightboxOpen(false)}
               className="absolute top-6 right-6 text-white/80 hover:text-white transition z-10"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <span className="material-symbols-outlined text-[32px]">close</span>
             </button>
             <motion.img
               initial={{ scale: 0.9, opacity: 0 }}
@@ -274,7 +265,7 @@ export default function ProductDetailPage() {
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               src={activeImage}
               alt={product.name}
-              className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
+              className="max-h-[85vh] max-w-[90vw] object-contain shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
@@ -295,7 +286,7 @@ export default function ProductDetailPage() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 max-h-[90vh] overflow-y-auto"
+              className="bg-white shadow-2xl w-full max-w-lg p-8 max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {inquirySubmitted ? (
@@ -305,7 +296,7 @@ export default function ProductDetailPage() {
                   </div>
                   <h3 className="font-['Hanken_Grotesk'] text-[24px] font-semibold text-primary mb-2">Thank you!</h3>
                   <p className="text-[16px] text-on-surface-variant mb-6">Your inquiry has been submitted. We'll respond within 2-4 business hours.</p>
-                  <button onClick={() => setInquiryOpen(false)} className="bg-primary text-white px-6 py-3 font-['Geist'] text-[14px] font-bold rounded-lg hover:bg-primary-container transition-all">Close</button>
+                  <button onClick={() => setInquiryOpen(false)} className="bg-primary text-white px-6 py-3 font-['Geist'] text-[14px] font-bold hover:bg-primary-container transition-all">Close</button>
                 </div>
               ) : (
                 <>
@@ -343,25 +334,25 @@ export default function ProductDetailPage() {
                   }}>
                     <div className="space-y-2">
                       <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">FULL NAME</label>
-                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your name" value={inquiryForm.name} onChange={(e) => setInquiryForm(prev => ({ ...prev, name: e.target.value }))} required />
+                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your name" value={inquiryForm.name} onChange={(e) => setInquiryForm(prev => ({ ...prev, name: e.target.value }))} required />
                     </div>
                     <div className="space-y-2">
                       <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">COMPANY</label>
-                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Company name" value={inquiryForm.company} onChange={(e) => setInquiryForm(prev => ({ ...prev, company: e.target.value }))} />
+                      <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Company name" value={inquiryForm.company} onChange={(e) => setInquiryForm(prev => ({ ...prev, company: e.target.value }))} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">EMAIL</label>
-                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="email@example.com" type="email" value={inquiryForm.email} onChange={(e) => setInquiryForm(prev => ({ ...prev, email: e.target.value }))} required />
+                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="email@example.com" type="email" value={inquiryForm.email} onChange={(e) => setInquiryForm(prev => ({ ...prev, email: e.target.value }))} required />
                       </div>
                       <div className="space-y-2">
                         <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">PHONE</label>
-                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="+971 50 123 4567" type="tel" value={inquiryForm.phone} onChange={(e) => setInquiryForm(prev => ({ ...prev, phone: e.target.value }))} required />
+                        <input className="w-full bg-background border border-outline px-4 py-3 text-[16px] focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="+971 50 123 4567" type="tel" value={inquiryForm.phone} onChange={(e) => setInquiryForm(prev => ({ ...prev, phone: e.target.value }))} required />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <label className="font-['Geist'] text-[14px] font-medium text-on-surface-variant block">MESSAGE</label>
-                      <textarea className="w-full bg-background border border-outline px-4 py-3 text-[16px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your inquiry details..." rows={4} value={inquiryForm.message} onChange={(e) => setInquiryForm(prev => ({ ...prev, message: e.target.value }))} required />
+                      <textarea className="w-full bg-background border border-outline px-4 py-3 text-[16px] focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Your inquiry details..." rows={4} value={inquiryForm.message} onChange={(e) => setInquiryForm(prev => ({ ...prev, message: e.target.value }))} required />
                     </div>
                     <button type="submit" disabled={inquiryLoading} className="w-full bg-primary text-white py-3 font-['Geist'] text-[14px] font-bold uppercase tracking-wider hover:bg-primary-container transition-all disabled:opacity-50 cursor-pointer">
                       {inquiryLoading ? 'Submitting...' : 'Send Inquiry'}
