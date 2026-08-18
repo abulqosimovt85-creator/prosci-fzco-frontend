@@ -45,8 +45,8 @@ export default function Footer() {
         <div>
           <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Company</h4>
           <ul className="space-y-3 text-[16px] leading-relaxed">
-            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</a></li>
-            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Terms of Service</a></li>
+            <li><Link to="/privacy" className="opacity-80 hover:opacity-100 transition-opacity hover:text-secondary-fixed">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="opacity-80 hover:opacity-100 transition-opacity hover:text-secondary-fixed">Terms of Service</Link></li>
           </ul>
         </div>
       </div>

@@ -10,6 +10,8 @@ import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import SolutionsPage from './pages/SolutionsPage'
 import ServicesPage from './pages/ServicesPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import TermsOfServicePage from './pages/TermsOfServicePage'
 import AdminPage from './pages/AdminPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 
@@ -90,6 +92,8 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/solutions" element={<SolutionsPage />} />
                 <Route path="/services" element={<ServicesPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </PublicLayout>
