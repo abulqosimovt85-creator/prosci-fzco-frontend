@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -57,6 +57,12 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   return isAuthenticated ? <>{children}</> : <Navigate to="/admin/login" replace />
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -71,6 +77,7 @@ function App() {
   return (
     <HelmetProvider>
     <BrowserRouter>
+      <ScrollToTop />
       <ErrorBoundary>
       <Routes>
         <Route path="/admin/login" element={<AdminLoginPage />} />
