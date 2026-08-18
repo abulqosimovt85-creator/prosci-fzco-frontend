@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function AboutPage() {
   return (
     <div className="bg-background">
@@ -159,8 +161,8 @@ export default function AboutPage() {
           <h2 className="font-['Hanken_Grotesk'] text-[32px] leading-[1.2] font-semibold text-primary mb-6">Ready to optimize your facility?</h2>
           <p className="text-[16px] leading-relaxed text-on-surface-variant mb-8">Speak with our technical specialists at <span className="font-bold">PROSCIENTIFIC SOLUTIONS</span> to build a procurement strategy tailored to your lab's specific research goals.</p>
           <div className="flex flex-col md:flex-row justify-center gap-4">
-            <a href="/contact" className="bg-primary text-white px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors text-center">Contact Sales</a>
-            <button className="border border-primary text-primary px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-surface-container-low transition-colors">Download Capability Statement</button>
+            <Link to="/contact" className="bg-primary text-white px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors text-center">Contact Sales</Link>
+            <Link to="/products" className="border border-primary text-primary px-10 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-surface-container-low transition-colors text-center">Browse Catalog</Link>
           </div>
         </div>
       </section>

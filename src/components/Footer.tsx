@@ -45,15 +45,15 @@ export default function Footer() {
         <div>
           <h4 className="font-['Hanken_Grotesk'] text-[20px] leading-normal font-semibold mb-6">Company</h4>
           <ul className="space-y-3 text-[16px] leading-relaxed">
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Privacy Policy</li>
-            <li className="opacity-80 hover:opacity-100 transition-opacity cursor-pointer">Terms of Service</li>
+            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</a></li>
+            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Terms of Service</a></li>
           </ul>
         </div>
       </div>
 
       <div className="mt-12 border-t border-white/5 pt-6 px-5 md:px-16 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="font-['Geist'] text-[12px] font-semibold opacity-60">
-          &copy; 2024 PROSCIENTIFIC SOLUTIONS. All rights reserved. ISO 9001:2015 Certified.
+          &copy; {new Date().getFullYear()} PROSCIENTIFIC SOLUTIONS. All rights reserved. ISO 9001:2015 Certified.
         </p>
       </div>
     </footer>

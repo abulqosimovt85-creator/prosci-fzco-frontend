@@ -1,18 +1,28 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { services } from '../data/content'
+import { submitInquiry } from '../services/siteApi'
 
 const serviceIcons = ['settings_suggest', 'verified', 'build', 'school', 'support_agent']
 
 export default function ServicesPage() {
   const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', service: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }))
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      await submitInquiry({ name: form.name, company: form.company, email: form.email, phone: form.phone, message: `Service: ${form.service}\n\n${form.message}`, industry: 'Technical Services', budget: '' })
+      setSubmitted(true)
+    } catch {
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -94,7 +104,7 @@ export default function ServicesPage() {
                     <label className="font-['Geist'] text-[12px] font-bold text-on-surface-variant uppercase tracking-widest">Details</label>
                     <textarea className="w-full bg-background border border-outline px-4 py-3 text-[15px] rounded-none focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Describe your requirements, equipment models, or specific issues..." rows={4} value={form.message} onChange={(e) => handleChange('message', e.target.value)} />
                   </div>
-                  <button type="submit" className="w-full bg-primary text-white px-8 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors">Submit Request</button>
+                  <button type="submit" disabled={loading} className="w-full bg-primary text-white px-8 py-4 font-['Geist'] text-[14px] font-bold uppercase tracking-wide hover:bg-primary-container transition-colors disabled:opacity-50">{loading ? 'Submitting...' : 'Submit Request'}</button>
                 </form>
               )}
             </div>

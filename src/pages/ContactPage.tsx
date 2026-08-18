@@ -10,17 +10,19 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', organization: '', email: '', phone: '', interest: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const handleChange = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(false)
     try {
       await submitInquiry({ name: form.name, company: form.organization, email: form.email, phone: form.phone, message: form.message, industry: form.interest, budget: '', productId })
       setSubmitted(true)
     } catch {
-      setSubmitted(true)
+      setError(true)
     } finally {
       setLoading(false)
     }
@@ -103,6 +105,7 @@ export default function ContactPage() {
                   </button>
                   <p className="text-[12px] font-['Geist'] text-on-surface-variant italic">Typical response time: 2-4 business hours.</p>
                 </div>
+                {error && <p className="text-[13px] font-semibold text-red-600 mt-2">Submission failed. Please try again or contact us directly at info@psci-sol.com</p>}
               </form>
             )}
           </div>

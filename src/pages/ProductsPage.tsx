@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchProducts, fetchCategories, fetchBrands } from '../services/siteApi'
 import type { Product, Category, Brand } from '../types'
@@ -8,24 +8,29 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<Brand[]>([])
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set())
   const [activeBrands, setActiveBrands] = useState<Set<string>>(new Set())
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    fetchCategories().then(setCategories)
+    fetchBrands().then(setBrands).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => setDebouncedSearch(search), 300)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [search])
 
   useEffect(() => {
     const catParam = activeCategories.size > 0 ? Array.from(activeCategories).join(',') : ''
     const brandParam = activeBrands.size > 0 ? Array.from(activeBrands).join(',') : ''
-    Promise.all([
-      fetchProducts(search, catParam, brandParam),
-      fetchCategories(),
-      fetchBrands(),
-    ]).then(([prods, cats, brs]) => {
-      setProducts(prods)
-      setCategories(cats)
-      setBrands(brs)
-    }).finally(() => setLoading(false))
-  }, [search, activeCategories, activeBrands])
+    fetchProducts(debouncedSearch, catParam, brandParam).then(setProducts)
+  }, [debouncedSearch, activeCategories, activeBrands])
 
   const toggleCategory = (catId: string) => {
     setActiveCategories(prev => {

@@ -165,7 +165,7 @@ export default function HomePage() {
                 </div>
               </form>
               {showSuggestions && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-outline-variant shadow-xl rounded-lg overflow-hidden z-50 max-h-[420px] overflow-y-auto max-w-xl">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-outline-variant shadow-xl rounded-lg overflow-hidden z-50 max-h-[50vh] overflow-y-auto max-w-xl">
                   {loadingSuggestions ? (
                     <div className="px-4 py-6 text-center text-on-surface-variant text-[14px]">Searching...</div>
                   ) : suggestions.length > 0 ? (

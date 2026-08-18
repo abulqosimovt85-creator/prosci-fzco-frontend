@@ -15,6 +15,7 @@ export default function ProductDetailPage() {
   const [inquiryForm, setInquiryForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [inquiryLoading, setInquiryLoading] = useState(false)
   const [inquirySubmitted, setInquirySubmitted] = useState(false)
+  const [inquiryError, setInquiryError] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -112,7 +113,7 @@ export default function ProductDetailPage() {
                   </svg>
                   Request Technical Quote
                 </button>
-                <a href={product.pdf} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-8 py-4 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all">
+                <a href={product.pdf && product.pdf !== '#' ? product.pdf : '#'} target="_blank" rel="noreferrer" className={`inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-8 py-4 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all ${!product.pdf || product.pdf === '#' ? 'opacity-50 pointer-events-none' : ''}`}>
                   <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
@@ -287,6 +288,7 @@ export default function ProductDetailPage() {
                   <form className="space-y-4" onSubmit={async (e) => {
                     e.preventDefault()
                     setInquiryLoading(true)
+                    setInquiryError(false)
                     try {
                       await submitInquiry({
                         name: inquiryForm.name,
@@ -300,7 +302,7 @@ export default function ProductDetailPage() {
                       })
                       setInquirySubmitted(true)
                     } catch {
-                      setInquirySubmitted(true)
+                      setInquiryError(true)
                     } finally {
                       setInquiryLoading(false)
                     }
@@ -330,6 +332,7 @@ export default function ProductDetailPage() {
                     <button type="submit" disabled={inquiryLoading} className="w-full bg-primary text-white py-3 font-['Geist'] text-[14px] font-bold uppercase tracking-wider hover:bg-primary-container transition-all disabled:opacity-50 cursor-pointer">
                       {inquiryLoading ? 'Submitting...' : 'Send Inquiry'}
                     </button>
+                    {inquiryError && <p className="text-[13px] font-semibold text-red-600 mt-2">Submission failed. Please try again or contact us directly.</p>}
                   </form>
                 </>
               )}
